@@ -20,6 +20,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".NextActivity"></activity>
+
+        <activity android:name=".CreateTaskActivity"></activity>
+
         <meta-data
             android:name="com.parse.SERVER_URL"
             android:value="@string/back4app_server_url" />
@@ -29,6 +33,7 @@
         <meta-data
             android:name="com.parse.CLIENT_KEY"
             android:value="@string/back4app_client_key" />
+
 
     </application>
 

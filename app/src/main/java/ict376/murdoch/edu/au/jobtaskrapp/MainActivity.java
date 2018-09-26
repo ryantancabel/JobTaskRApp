@@ -14,7 +14,9 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.ParseInstallation;
 
+
 public class MainActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView username = (TextView) findViewById(R.id.username);
         final TextView password = (TextView) findViewById(R.id.password);
 
+
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,13 +37,16 @@ public class MainActivity extends AppCompatActivity {
                     public void done(ParseUser parseUser, ParseException e) {
                         if (parseUser != null) {
                             Toast.makeText(MainActivity.this, "Yes", Toast.LENGTH_SHORT).show();
-                            //Intent i = new Intent(MainActivity.this, AvailableTasks.class);
-                            //startActivity(i);
+
+                            Intent i = new Intent(MainActivity.this, NextActivity.class);
+                            startActivity(i);
+
                         } else {
                             Toast.makeText(MainActivity.this, "No", Toast.LENGTH_SHORT).show();
                             ParseUser.logOut();
                         }
                     }
+
                 });
             }
         });
@@ -51,4 +57,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    // func to call when the user tap the next button on the MainActivity
+//    public void pressedNextButton(View v)
+//    {
+//        Intent i = new Intent(this, NextActivity.class);
+//        Button btnNext = (Button) findViewById(R.id.btnNext);
+//        startActivity(i);
+//
+//    }
 }
