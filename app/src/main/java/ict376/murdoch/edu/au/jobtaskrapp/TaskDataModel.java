@@ -1,13 +1,15 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class TaskDataModel {
+public class TaskDataModel /*implements Parcelable*/ {
 
     public String taskName;
     public String taskDescp;
 
-    public TaskDataModel()
+    public TaskDataModel(Parcel source)
     {
         super();
     }
@@ -19,8 +21,6 @@ public class TaskDataModel {
         setTaskDescp(taskDescp);
     }
 
-
-
     public void setTaskName(String taskName) {
         this.taskName = taskName;
     }
@@ -28,8 +28,6 @@ public class TaskDataModel {
     public void setTaskDescp(String taskDescp) {
         this.taskDescp = taskDescp;
     }
-
-
 
     public String getTaskDescp() {
         return taskDescp;
@@ -44,4 +42,37 @@ public class TaskDataModel {
     {
         return this.getTaskName();
     }
+
+   /* @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(taskName);
+        dest.writeString(taskDescp);
+
+    }
+
+    public class MyCreator implements Parcelable.Creator<TaskDataModel> {
+        public TaskDataModel createFromParcel(Parcel source) {
+            return new TaskDataModel(source);
+        }
+        public TaskDataModel[] newArray(int size) {
+            return new TaskDataModel[size];
+        }
+    }
+
+    public TaskDataModel(Parcel source){
+
+        taskDescp = source.readString();
+        taskName = source.readString();
+
+    } */
+
+    //Parcelable Methods
+
+
 }

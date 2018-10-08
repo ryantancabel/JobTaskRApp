@@ -24,6 +24,8 @@
 
         <activity android:name=".CreateTaskActivity"></activity>
 
+        <activity android:name=".NxtActivity"></activity>
+
         <meta-data
             android:name="com.parse.SERVER_URL"
             android:value="@string/back4app_server_url" />
