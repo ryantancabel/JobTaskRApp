@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateTaskActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/txt_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="none|textPersonName"
+            android:text="Task Title" />
+
+        <EditText
+            android:id="@+id/ed_TaskTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Enter Title Name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/txt_Description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="none|textPersonName"
+            android:text="Task Description" />
+
+        <EditText
+            android:id="@+id/ed_Description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:capitalize="sentences"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:singleLine="false"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/bt_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="SaveButton_OnClick"
+            android:text="Save" />
+    </LinearLayout>
+
+</RelativeLayout>
