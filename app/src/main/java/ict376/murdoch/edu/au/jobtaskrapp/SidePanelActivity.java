@@ -1,10 +1,13 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -42,6 +45,21 @@ public class SidePanelActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+        Intent i = getIntent();
+
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.placeholder);
+
+        if (fragment == null) {
+            fragment = new NxtFragment();
+            fm.beginTransaction()
+                    .add(R.id.placeholder, fragment)
+                    .commit();
+        }
+
     }
 
     @Override
@@ -99,6 +117,27 @@ public class SidePanelActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+/*
+    public static SidePanelActivity newInstance(String param1, String param2) {
+        SidePanelActivity maincontainer = new SidePanelActivity();
+        return maincontainer;
+    }
+*/
+    public static Intent newIntent (Context packageContext){
+        Intent i = new Intent(packageContext, SidePanelActivity.class);
+        return i;
+    }
+
+
+
+
+    public void pressedNextButton(View view) {
+
+        Intent i = new Intent(SidePanelActivity.this, CreateTaskActivity.class);
+        startActivity(i);
+
     }
 
 

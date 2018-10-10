@@ -47,80 +47,68 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         lg_fra = inflater.inflate(R.layout.fragment_login, container, false);
+
+        Parse.initialize(getActivity(), getString(R.string.back4app_app_id), getString(R.string.back4app_client_key));
+
+        login_button2 = (Button) lg_fra.findViewById(R.id.login_button);
+        username2 = (TextView) lg_fra.findViewById(R.id.username);
+        password2 = (TextView) lg_fra.findViewById(R.id.password);
+        registedButton2 = (Button) lg_fra.findViewById(R.id.registerBtn);
+
+        login_button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String usedID = username2.getText().toString();
+                String passwordLg = password2.getText().toString();
+
+                ParseUser.logInInBackground(usedID, passwordLg, new LogInCallback() {
+                    @Override
+                    public void done(ParseUser parseUser, ParseException e) {
+                        if (parseUser != null) {
+
+                            Toast.makeText(getActivity(), String.format("Login_Success"), Toast.LENGTH_SHORT).show();
+
+                             Intent ProfilePage = SidePanelActivity.newIntent(getActivity());
+                             startActivity(ProfilePage);
+
+                        } else {
+
+                            AlertDialog.Builder alerBuilder = new AlertDialog.Builder(getActivity());
+                            alerBuilder.setMessage(e.getMessage());
+                            alerBuilder.setTitle("Error, Invalid Login attempt");
+                            alerBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+
+                            AlertDialog alertbox = alerBuilder.create();
+                            alertbox.show();
+                        }
+                    }
+                });
+            }
+        });
+
+        registedButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent ProfilePage = SignUpActivity.newIntent(getActivity());
+                startActivity(ProfilePage);
+            }
+        });
+
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
         return lg_fra;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        View lgContainer = getActivity().findViewById(R.id.lgareaFragment);
-        boolean isVisible = (lgContainer != null && lgContainer.getVisibility() == View.VISIBLE); // the problem is when entering the if condistion and in this line verification
-
-        if (isVisible) {
-
-            Toast.makeText(getActivity(), String.format("before parser"), Toast.LENGTH_SHORT).show();
-            Parse.initialize(getActivity(), getString(R.string.back4app_app_id), getString(R.string.back4app_client_key));
-
-            login_button2 = (Button) lg_fra.findViewById(R.id.login_button);
-            username2 = (TextView) lg_fra.findViewById(R.id.username);
-            password2 = (TextView) lg_fra.findViewById(R.id.password);
-            registedButton2 = (Button) lg_fra.findViewById(R.id.registerBtn);
-
-            Toast.makeText(getActivity(), String.format("before login on clicker"), Toast.LENGTH_SHORT).show();
-            login_button2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String usedID = username2.getText().toString();
-                    String passwordLg = password2.getText().toString();
-
-                    ParseUser.logInInBackground(usedID, passwordLg, new LogInCallback() {
-                        @Override
-                        public void done(ParseUser parseUser, ParseException e) {
-                            if (parseUser != null) {
-
-                                Toast.makeText(getActivity(), String.format("Login_Success"), Toast.LENGTH_SHORT).show();
-
-                               //  Intent ProfilePage = SidePanelActivity.newIntent(getActivity());
-                                //startActivity(ProfilePage);
-
-                            } else {
-
-                                AlertDialog.Builder alerBuilder = new AlertDialog.Builder(getActivity());
-                                alerBuilder.setMessage(e.getMessage());
-                                alerBuilder.setTitle("Error, Invalid Login attempt");
-                                alerBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                });
-
-                                AlertDialog alertbox = alerBuilder.create();
-                                alertbox.show();
-
-                            }
-                        }
-                    });
-                }
-            });
-
-            registedButton2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                   // Intent registerPage = LoginActivity.newIntent(getActivity());
-                    //startActivity(registerPage);
-
-                    Toast.makeText(getActivity(), String.format("Registation"), Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            ParseInstallation.getCurrentInstallation().saveInBackground();
-        }else{
-
-            Toast.makeText(getActivity(), String.format("Nothing happening"), Toast.LENGTH_SHORT).show();
-        }
     }
 
     public static Intent newIntent(Context packageContext){
