@@ -1,6 +1,9 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +18,8 @@ import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -49,7 +54,6 @@ public class NxtFragment extends Fragment {
         MyRecyclerView.setLayoutManager(MyLayoutManager);
 
         initializeList();
-
 
         return view;
     }
@@ -117,7 +121,20 @@ public class NxtFragment extends Fragment {
                     //dataModelList.clear();
                     for(ParseObject task : taskList)
                     {
-                        TaskDataModel mTaskData = new TaskDataModel(task.getString("Title"), task.getString("Description"));
+                        ParseFile imageFile = (ParseFile) task.getParseFile("user_image");
+                        Bitmap bitmap = BitmapFactory.decodeFile(imageFile);
+
+                        ParseGeoPoint parseAddress = task.getParseGeoPoint("Location");
+                        Location androidAddress = null;
+                        double latitude = parseAddress.getLatitude();
+                        double longitude = parseAddress.getLongitude();
+                        androidAddress.setLatitude(latitude);
+                        androidAddress.setLongitude(longitude);
+
+
+                        TaskDataModel mTaskData = new TaskDataModel(task.getString("Title"), task.getString("Description"),
+                                task.getParseFile("Image"), androidAddress,
+                                task.getDate("TaskWhen"), task.getDate("PostedWhen"), task.getDouble("TaskRate"));
 
                         dataModelList.add(mTaskData);
                     }

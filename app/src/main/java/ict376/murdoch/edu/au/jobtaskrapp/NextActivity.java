@@ -29,7 +29,7 @@ public class NextActivity extends ListActivity {
     private String tid,tname,tdescp;
 
 
-    private List<TaskDataModel> dataModelList;
+    private ArrayList<TaskDataModel> dataModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

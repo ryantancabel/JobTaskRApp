@@ -1,24 +1,31 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.location.Location;
+import android.media.Image;
+import java.util.Date;
 
-public class TaskDataModel /*implements Parcelable*/ {
+public class TaskDataModel {
 
-    public String taskName;
-    public String taskDescp;
+    private String taskName;
+    private String taskDesc;
+    private Image picture;
+    private Location address;
+    private Date dateWhen;
+    private Date datePosted;
+    private Double taskRate;
 
-    public TaskDataModel(Parcel source)
-    {
-        super();
-    }
-
-    public TaskDataModel(String taskName, String taskDescp)
+    public TaskDataModel(String taskName, String taskDescp, Image picture, Location address,
+                         Date dateWhen, Date datePosted, Double taskRate)
     {
         super();
         setTaskName(taskName);
         setTaskDescp(taskDescp);
+        setPicture(picture);
+        setAddress(address);
+        setDateWhen(dateWhen);
+        setDatePosted(datePosted);
+        setTaskRate(taskRate);
     }
 
     public void setTaskName(String taskName) {
@@ -26,53 +33,51 @@ public class TaskDataModel /*implements Parcelable*/ {
     }
 
     public void setTaskDescp(String taskDescp) {
-        this.taskDescp = taskDescp;
+        this.taskDesc = taskDescp;
+    }
+
+    public void setPicture(Image picture) {
+        this.picture = picture;
+    }
+
+    public void setAddress(Location address) {
+        this.address = address;
+    }
+
+    public void setDateWhen(Date dateWhen) {
+        this.dateWhen = dateWhen;
+    }
+
+    public void setDatePosted(Date datePosted) {
+        this.datePosted = datePosted;
+    }
+
+    public void setTaskRate(Double taskRate) {
+        this.taskRate = taskRate;
     }
 
     public String getTaskDescp() {
-        return taskDescp;
+        return taskDesc;
     }
 
     public String getTaskName() {
         return taskName;
     }
 
+    public Image getPicture() { return picture; }
+
+    public Location getAddress() { return address; }
+
+    public Date getDateWhen() { return dateWhen; }
+
+    public Date getDatePosted() { return datePosted; }
+
+    public Double getTaskRate() {return taskRate; }
+
     @Override
     public String toString()
     {
         return this.getTaskName();
     }
-
-   /* @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-        dest.writeString(taskName);
-        dest.writeString(taskDescp);
-
-    }
-
-    public class MyCreator implements Parcelable.Creator<TaskDataModel> {
-        public TaskDataModel createFromParcel(Parcel source) {
-            return new TaskDataModel(source);
-        }
-        public TaskDataModel[] newArray(int size) {
-            return new TaskDataModel[size];
-        }
-    }
-
-    public TaskDataModel(Parcel source){
-
-        taskDescp = source.readString();
-        taskName = source.readString();
-
-    } */
-
-    //Parcelable Methods
-
 
 }
