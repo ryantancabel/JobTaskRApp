@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         ft.replace(R.id.lgareaFragment, new LoginFragment());
         ft.commit();
 
-        //THis is the new file
+        //This is the new file
     }
 
     public static Intent newIntent(Context packageContext){
