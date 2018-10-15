@@ -16,20 +16,22 @@
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Account Setting">
         <menu>
-            <item
+            <!--<item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="Share" /> -->
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_manage"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Tools" />
+
+            <item
+                android:id="@+id/logOut_panel"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Send" />
         </menu>

@@ -1,13 +1,16 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -32,8 +35,7 @@ public class SidePanelActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Notification();
             }
         });
 
@@ -45,8 +47,6 @@ public class SidePanelActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
 
         Intent i = getIntent();
 
@@ -108,29 +108,21 @@ public class SidePanelActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        } /*else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-/*
-    public static SidePanelActivity newInstance(String param1, String param2) {
-        SidePanelActivity maincontainer = new SidePanelActivity();
-        return maincontainer;
-    }
-*/
     public static Intent newIntent (Context packageContext){
         Intent i = new Intent(packageContext, SidePanelActivity.class);
         return i;
     }
-
-
 
 
     public void pressedNextButton(View view) {
@@ -140,5 +132,19 @@ public class SidePanelActivity extends AppCompatActivity
 
     }
 
+
+    public void Notification(){
+
+        NotificationCompat.Builder notificationBuilder;
+        notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(SidePanelActivity.this).setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setSmallIcon(R.drawable.ic_menu_share)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_menu_share))
+                .setContentTitle("Notification: JobTasker")
+                .setContentText("Your Are using the floating button");
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1,notificationBuilder.build());
+
+    }
 
 }

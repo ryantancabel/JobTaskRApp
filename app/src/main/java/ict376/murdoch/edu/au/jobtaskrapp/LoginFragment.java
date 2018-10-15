@@ -1,11 +1,16 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationBuilderWithBuilderAccessor;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -115,5 +120,7 @@ public class LoginFragment extends Fragment {
         Intent i = new Intent(packageContext, LoginFragment.class);
         return i;
     }
+
+
 
 }
