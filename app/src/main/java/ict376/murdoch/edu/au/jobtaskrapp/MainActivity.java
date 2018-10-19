@@ -54,15 +54,4 @@ public class MainActivity extends AppCompatActivity {
         //save current installation to Back4App
         ParseInstallation.getCurrentInstallation().saveInBackground();
     }
-
-
-
-    // func to call when the user tap the next button on the MainActivity
-//    public void pressedNextButton(View v)
-//    {
-//        Intent i = new Intent(this, NextActivity.class);
-//        Button btnNext = (Button) findViewById(R.id.btnNext);
-//        startActivity(i);
-//
-//    }
 }

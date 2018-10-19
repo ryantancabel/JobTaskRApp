@@ -18,13 +18,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="8dp"
             >
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_photo"
+                android:id="@+id/itemPhoto"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="16dp"
@@ -34,26 +34,30 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_name"
-                android:layout_toRightOf="@+id/person_photo"
+                android:id="@+id/titleTextView"
+                android:layout_toRightOf="@+id/itemPhoto"
                 android:layout_alignParentTop="true"
-                android:textSize="30sp"
+                android:textSize="18sp"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/price"
-                android:layout_toRightOf="@+id/person_photo"
-                android:layout_below="@+id/person_name"
+                android:id="@+id/description"
+                android:layout_toRightOf="@+id/itemPhoto"
+                android:layout_below="@+id/titleTextView"
+                android:maxLines="1"
+                android:ellipsize="end"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/location"
-                android:layout_toRightOf="@+id/person_photo"
-                android:layout_below="@+id/price"
+                android:layout_toRightOf="@+id/itemPhoto"
+                android:layout_below="@+id/description"
+                android:drawableLeft="@drawable/pin_location"
+                android:drawablePadding="2dp"
                 />
 
 

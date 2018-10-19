@@ -2,20 +2,20 @@ package ict376.murdoch.edu.au.jobtaskrapp;
 
 
 import android.location.Location;
-import android.media.Image;
+import com.parse.ParseFile;
 import java.util.Date;
 
 public class TaskDataModel {
 
     private String taskName;
     private String taskDesc;
-    private Image picture;
+    private ParseFile picture;
     private Location address;
     private Date dateWhen;
     private Date datePosted;
     private Double taskRate;
 
-    public TaskDataModel(String taskName, String taskDescp, Image picture, Location address,
+    public TaskDataModel(String taskName, String taskDescp, ParseFile picture, Location address,
                          Date dateWhen, Date datePosted, Double taskRate)
     {
         super();
@@ -36,7 +36,7 @@ public class TaskDataModel {
         this.taskDesc = taskDescp;
     }
 
-    public void setPicture(Image picture) {
+    public void setPicture(ParseFile picture) {
         this.picture = picture;
     }
 
@@ -64,7 +64,7 @@ public class TaskDataModel {
         return taskName;
     }
 
-    public Image getPicture() { return picture; }
+    public ParseFile getPicture() { return picture; }
 
     public Location getAddress() { return address; }
 
