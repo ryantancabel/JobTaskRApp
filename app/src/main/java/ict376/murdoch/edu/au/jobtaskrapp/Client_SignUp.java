@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
@@ -21,6 +22,11 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 public class Client_SignUp extends Fragment {
+
+    public Client_SignUp() {
+
+    }
+
     protected Button signUp1;
     protected TextView Name1;
     protected TextView userName1;
@@ -31,16 +37,24 @@ public class Client_SignUp extends Fragment {
     public View fra;
 
 
-    public static Client_SignUp newInstance(){
+    public static Client_SignUp newInstance() {
 
         Client_SignUp fragmen_lg = new Client_SignUp();
         return fragmen_lg;
+    }
+
+
+    public static Client_SignUp newInstance(String param1, String param2) {
+        Client_SignUp fragment = new Client_SignUp();
+        return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fra = inflater.inflate(R.layout.fragment_client__sign_up, container, false);
+    //    Parse.initialize(getActivity(), getString(R.string.back4app_app_id), getString(R.string.back4app_client_key));
+
 
         signUp1 = (Button) fra.findViewById(R.id.signUpbtn);
         Name1 = (TextView) fra.findViewById(R.id.name);
@@ -55,7 +69,7 @@ public class Client_SignUp extends Fragment {
             @Override
             public void onClick(View view) {
 
-                 Intent home = MainActivity.newIntent(getActivity());
+                Intent home = MainActivity.newIntent(getActivity());
                 startActivity(home);
             }
         });
@@ -110,13 +124,18 @@ public class Client_SignUp extends Fragment {
 
         ParseInstallation.getCurrentInstallation().saveInBackground();
 
-
         return fra;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    public static Intent newIntent(Context packageContext) {
+        Intent i = new Intent(packageContext, LoginFragment.class);
+        return i;
 
     }
 }

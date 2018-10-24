@@ -8,6 +8,7 @@
     android:padding="8dp"
     tools:context=".NxtActivity">
 
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cardView"
         android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ public class SignUpActivity extends AppCompatActivity {
     private View V;
     protected boolean flag = false;
 
+    Client_SignUp  myFg = null;
+    Tech_SignUp   newTechSignupFg = null;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener;
     {
         mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -30,13 +33,24 @@ public class SignUpActivity extends AppCompatActivity {
 
                     case R.id.client_Nav:
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.areaFragment, new Client_SignUp());
+
+                        // Fragment currentFragment = getApplicationContext().getFragmentManager().findFragmentById(R.id.fragment_container);
+                        if (newTechSignupFg != null) {
+                            ft.remove(newTechSignupFg);
+
+                          //  ft.commit();
+                        }
+                        myFg = new Client_SignUp();
+                        ft.replace(R.id.areaFragment, myFg);
+                       // ft.addToBackStack(null);
                         ft.commit();
                         flag = true;
                         break;
                     case R.id.tech_Nav:
                         FragmentTransaction fx = getSupportFragmentManager().beginTransaction();
-                        fx.replace(R.id.areaFragment, new Tech_SignUp());
+                        newTechSignupFg = new Tech_SignUp();
+                        fx.replace(R.id.areaFragment, newTechSignupFg);
+                     //   fx.addToBackStack(null);
                         fx.commit();
                         flag = true;
                         break;
@@ -52,15 +66,16 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.areaFragment, new Client_SignUp());
-        ft.commit();
-       // BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        //navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
-    public static Intent newIntent (Context packageContext){
+    public static Intent newIntent(Context packageContext){
         Intent i = new Intent(packageContext, SignUpActivity.class);
         return i;
     }
+
+
+
+
 }
