@@ -56,8 +56,6 @@
                 android:id="@+id/location"
                 android:layout_toRightOf="@+id/itemPhoto"
                 android:layout_below="@+id/description"
-                android:drawableLeft="@drawable/pin_location"
-                android:drawablePadding="2dp"
                 />
 
 

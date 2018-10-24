@@ -41,4 +41,9 @@ public class CreateTaskActivity extends AppCompatActivity {
         tasks.saveInBackground();
 
     }
+    public void Edit_Button_OnClick(View view) {
+        Intent i = new Intent(CreateTaskActivity.this, EditTaskDetail.class);
+
+        startActivity(i);
+    }
 }

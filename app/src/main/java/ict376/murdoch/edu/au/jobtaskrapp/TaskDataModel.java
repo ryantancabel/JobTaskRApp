@@ -15,6 +15,10 @@ public class TaskDataModel {
     private Date datePosted;
     private Double taskRate;
 
+
+    //add default constructor:
+    public TaskDataModel(){}
+
     public TaskDataModel(String taskName, String taskDescp, ParseFile picture, Location address,
                          Date dateWhen, Date datePosted, Double taskRate)
     {

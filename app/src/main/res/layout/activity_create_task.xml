@@ -50,6 +50,14 @@
             android:layout_height="wrap_content"
             android:onClick="SaveButton_OnClick"
             android:text="Save" />
+
+        <Button
+            android:id="@+id/bt_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="Edit_Button_OnClick"
+            android:text="@string/edit" />
+
     </LinearLayout>
 
 </RelativeLayout>
