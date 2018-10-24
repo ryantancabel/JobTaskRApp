@@ -44,11 +44,6 @@
             android:label="@string/title_activity_sign_up"
             android:theme="@style/AppTheme.NoActionBar"
           />
-        <activity
-            android:name=".SignUp_TestingActivity"
-            android:label="@string/title_activity_sign_up__testing"
-            android:theme="@style/AppTheme.NoActionBar"
-             ></activity>
     </application>
 
 </manifest>
