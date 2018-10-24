@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".SignUpActivity"
+            android:label="@string/title_activity_sign_up"
+            android:theme="@style/AppTheme.NoActionBar"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,8 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".NextActivity" />
         <activity android:name=".CreateTaskActivity" />
         <activity android:name=".NxtActivity" />
 
@@ -36,19 +37,18 @@
             android:name="com.parse.CLIENT_KEY"
             android:value="@string/back4app_client_key" />
 
-
         <activity
             android:name=".SidePanelActivity"
             android:label="@string/title_activity_side_panel"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-
-        <activity
-            android:name=".SignUpActivity"
-            android:label="@string/title_activity_sign_up"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-
+        <activity
+            android:name=".MainActivity"
+          />
+        <activity
+            android:name=".SignUp_TestingActivity"
+            android:label="@string/title_activity_sign_up__testing"
+            android:theme="@style/AppTheme.NoActionBar"
+             ></activity>
     </application>
 
 </manifest>

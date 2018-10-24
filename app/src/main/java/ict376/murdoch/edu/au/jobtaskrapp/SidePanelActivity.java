@@ -53,11 +53,9 @@ public class SidePanelActivity extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.placeholder);
 
-        if (fragment == null) {
+       if (fragment == null) {
             fragment = new NxtFragment();
-            fm.beginTransaction()
-                    .add(R.id.placeholder, fragment)
-                    .commit();
+            fm.beginTransaction().add(R.id.placeholder, fragment).commit();
         }
 
     }

@@ -7,6 +7,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import ict376.murdoch.edu.au.jobtaskrapp.CreateTaskActivity;
+import ict376.murdoch.edu.au.jobtaskrapp.NxtFragment;
+import ict376.murdoch.edu.au.jobtaskrapp.R;
+
 public class NxtActivity extends AppCompatActivity {
 
     @Override

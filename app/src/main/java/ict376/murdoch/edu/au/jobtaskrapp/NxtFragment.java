@@ -1,6 +1,11 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,15 +16,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class NxtFragment extends Fragment {
 
@@ -49,7 +62,6 @@ public class NxtFragment extends Fragment {
         MyRecyclerView.setLayoutManager(MyLayoutManager);
 
         initializeList();
-
 
         return view;
     }
@@ -81,6 +93,33 @@ public class NxtFragment extends Fragment {
 
             holder.titleTextView.setText(list.get(position).getTaskName());
 
+            String y = "$" + new DecimalFormat("#").format(list.get(position).getTaskRate());
+
+            holder.description.setText(y);
+
+            ParseFile x = list.get(position).getPicture();
+            if(x != null) {
+                String imageUrl = x.getUrl();
+                Picasso
+                        .get()
+                        .load(imageUrl)
+                        .resize(100,100)
+                        .into(holder.itemPhoto);
+            }
+
+            Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
+            Location locality = list.get(position).getAddress();
+            double latLocality = locality.getLatitude();
+            double lonLocality = locality.getLongitude();
+            List<Address> addresses = null;
+            try {
+                addresses = gcd.getFromLocation(latLocality, lonLocality, 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String city = addresses.get(0).getLocality();
+            holder.location.setText(city);
+
         }
 
         @Override
@@ -94,10 +133,17 @@ public class NxtFragment extends Fragment {
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView titleTextView;
+        public ImageView itemPhoto;
+        public TextView description;
+        public TextView location;
 
         public MyViewHolder(View v) {
             super(v);
+            itemPhoto = (ImageView) v.findViewById(R.id.itemPhoto);
             titleTextView = (TextView) v.findViewById(R.id.titleTextView);
+            description = (TextView) v.findViewById(R.id.description);
+            location = (TextView) v.findViewById(R.id.location);
+
         }
     }
 
@@ -114,10 +160,29 @@ public class NxtFragment extends Fragment {
             public void done(List<ParseObject> taskList, ParseException e) {
                 if (e == null)
                 {
+
                     //dataModelList.clear();
                     for(ParseObject task : taskList)
                     {
-                        TaskDataModel mTaskData = new TaskDataModel(task.getString("Title"), task.getString("Description"));
+                        Location androidAddress = new Location("dummyprovider");
+
+                        if(task.getParseGeoPoint("Location") != null) {
+                            ParseGeoPoint parseAddress = task.getParseGeoPoint("Location");
+
+                            double latitude = parseAddress.getLatitude();
+                            double longitude = parseAddress.getLongitude();
+                            androidAddress.setLatitude(latitude);
+                            androidAddress.setLongitude(longitude);
+                        }
+                        else {
+                            androidAddress.setLatitude(0);
+                            androidAddress.setLongitude(0);
+                        }
+
+
+                        TaskDataModel mTaskData = new TaskDataModel(task.getString("Title"), task.getString("Description"),
+                                task.getParseFile("Image"), androidAddress, task.getDate("TaskWhen"),
+                                task.getDate("PostedWhen"), task.getDouble("TaskRate"));
 
                         dataModelList.add(mTaskData);
                     }
