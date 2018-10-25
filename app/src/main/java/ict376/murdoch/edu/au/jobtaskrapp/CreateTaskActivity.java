@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Spinner;
 import android.widget.TextView;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -12,8 +13,12 @@ import com.parse.ParseUser;
 
 public class CreateTaskActivity extends AppCompatActivity {
 
-    private TextView taskTitle, description;
-    private String title, des;
+    private TextView taskTitle, description,taskRate;
+    private String title, des,rateDuration;
+    private int rate;
+    //for SpiRRnner
+    private Spinner taskType;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +31,18 @@ public class CreateTaskActivity extends AppCompatActivity {
 
         taskTitle=(TextView)findViewById(R.id.ed_TaskTitle);
         description=(TextView)findViewById(R.id.ed_Description);
+        taskRate = (TextView)findViewById(R.id.taskRate);
+        taskType = (Spinner)findViewById(R.id.taskType);
+        //add listener On Spinner
+        addListenerOnSpinnerItemSelection(taskType);
+
     }
+    public void addListenerOnSpinnerItemSelection(View view)
+    {
+        taskType = (Spinner) view.findViewById(R.id.taskType);
+        taskType.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+    }
+
 
     public void SaveButton_OnClick(View view)
     {
@@ -34,10 +50,14 @@ public class CreateTaskActivity extends AppCompatActivity {
         if(taskTitle.getText() != null) {
             title = taskTitle.getText().toString();
             des =description.getText().toString();
+            rate = Integer.valueOf( taskRate.getText().toString());
+            rateDuration = taskType.getSelectedItem().toString();
         }
         ParseObject tasks = new ParseObject("Task");
         tasks.put("Title",title);
         tasks.put("Description",des);
+        tasks.put("TaskRate",rate);
+        tasks.put("RateDuration", rateDuration);
         tasks.saveInBackground();
 
     }
