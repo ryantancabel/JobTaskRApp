@@ -27,9 +27,7 @@ public class CreateTaskActivity extends AppCompatActivity {
     //for SpiRRnner
     private Spinner taskType;
     //for notification
-    private final String CHANNEL_ID = "accept_notification";
-    private final  int NOTIFICATION_ID = 001;
-    String CHANNEL_NAME = "Channel Name";// The public name of the channel.
+    private NotificationManager notifManager;
 
 
     @Override
@@ -78,11 +76,10 @@ public class CreateTaskActivity extends AppCompatActivity {
 
         startActivity(i);
     }
-    private NotificationManager notifManager;
 
     public void Notification_OnClick(View view)
     {
-        createNotification("Notification", view.getContext());
+        createNotification("Task accepted", view.getContext());
 
     }
     public void createNotification(String aMessage, Context context){
@@ -106,7 +103,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                 notifManager.createNotificationChannel(mChannel);
             }
             builder = new NotificationCompat.Builder(context, id);
-            intent = new Intent(context, MainActivity.class);
+            intent = new Intent(context, CreateTaskActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             builder.setContentTitle(aMessage)                            // required
