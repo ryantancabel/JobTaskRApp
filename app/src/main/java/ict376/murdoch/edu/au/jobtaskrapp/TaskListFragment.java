@@ -1,11 +1,14 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
+import android.content.res.Configuration;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -25,12 +30,14 @@ import com.parse.ParseQuery;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class TaskListFragment extends Fragment {
+
 
     ArrayList<TaskDataModel> dataModelList = new ArrayList<>();
     RecyclerView MyRecyclerView;
@@ -85,7 +92,7 @@ public class TaskListFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(final MyViewHolder holder, int position) {
+        public void onBindViewHolder(final MyViewHolder holder, int position){
 
             //add Task Name
             holder.titleTextView.setText(list.get(position).getTaskName());
@@ -119,7 +126,35 @@ public class TaskListFragment extends Fragment {
             String city = addresses.get(0).getLocality();
             holder.location.setText(city);
 
+            holder.setItemClickListener(new ItemClickListener() {
+                @Override
+                public void onClick(View view, int position, String title) {
+
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    TaskDetailFragment tdf = new TaskDetailFragment();
+
+                    Bundle arguments = new Bundle();
+                    arguments.putSerializable("taskObject", dataModelList.get(position));
+                    tdf.setArguments(arguments);
+
+                    if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+
+                        ft.replace(R.id.taskListPlaceholder, tdf, getTag()).addToBackStack(getTag()).commit();
+
+                    }
+                    else {
+
+                        ft.replace(R.id.taskDetailPlaceholder, tdf, getTag()).addToBackStack(getTag()).commit();
+
+                    }
+                }
+            });
+
+
         }
+
+
 
         @Override
         public int getItemCount() {
@@ -129,12 +164,13 @@ public class TaskListFragment extends Fragment {
     }
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView titleTextView;
         public ImageView itemPhoto;
         public TextView price;
         public TextView location;
+        private ItemClickListener itemClickListener;
 
         public MyViewHolder(View v) {
             super(v);
@@ -142,6 +178,20 @@ public class TaskListFragment extends Fragment {
             titleTextView = (TextView) v.findViewById(R.id.titleTextView);
             price = (TextView) v.findViewById(R.id.price);
             location = (TextView) v.findViewById(R.id.location);
+
+            v.setOnClickListener(this);
+
+        }
+
+        public void setItemClickListener(ItemClickListener itemClickListener)
+        {
+            this.itemClickListener = itemClickListener;
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            itemClickListener.onClick(v, getAdapterPosition(), titleTextView.getText().toString());
 
         }
     }

@@ -3,9 +3,11 @@ package ict376.murdoch.edu.au.jobtaskrapp;
 
 import android.location.Location;
 import com.parse.ParseFile;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class TaskDataModel {
+public class TaskDataModel implements Serializable {
 
     private String taskName;
     private String taskDesc;

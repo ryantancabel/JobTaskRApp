@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/titleTextView"
-                android:layout_toEndOf="@+id/itemPhoto"
+                android:layout_toEndOf="@+id/profile_pic"
                 android:layout_alignParentTop="true"
                 android:textSize="18sp"
                 />
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/price"
-                android:layout_toEndOf="@+id/itemPhoto"
+                android:layout_toEndOf="@+id/profile_pic"
                 android:layout_below="@+id/titleTextView"
                 />
 
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/location"
-                android:layout_toEndOf="@+id/itemPhoto"
+                android:layout_toEndOf="@+id/profile_pic"
                 android:layout_below="@+id/price"
                 />
 

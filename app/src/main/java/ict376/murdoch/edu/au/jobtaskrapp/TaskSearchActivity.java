@@ -7,31 +7,47 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.support.v4.app.FragmentTransaction;
 
 public class TaskSearchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task_search);
         Intent i = getIntent();
 
-        /*
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            setContentView(R.layout.activity_task_search);
 
+            FragmentManager fm = getSupportFragmentManager();
+            Fragment fragment = fm.findFragmentById(R.id.taskListPlaceholder);
 
-        }*/
+            if (fragment == null) {
+                fragment = new TaskListFragment();
+                fm.beginTransaction()
+                        .add(R.id.taskListPlaceholder, fragment)
+                        .commit();
+            }
 
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.taskListPlaceholder);
+        }
 
-        if (fragment == null) {
-            fragment = new TaskListFragment();
-            fm.beginTransaction()
-                    .add(R.id.taskListPlaceholder, fragment)
-                    .commit();
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setContentView(R.layout.activity_task_search_landscape);
+
+            FragmentManager fm = getSupportFragmentManager();
+            Fragment Listfragment = fm.findFragmentById(R.id.taskListPlaceholder);
+            Fragment Detailfragment = fm.findFragmentById(R.id.taskDetailPlaceholder);
+
+            if (Listfragment == null) {
+                Listfragment = new TaskListFragment();
+                fm.beginTransaction()
+                        .add(R.id.taskListPlaceholder, Listfragment)
+                        .commit();
+            }
+
         }
     }
+
 
     public void pressedNextButton(View view) {
 

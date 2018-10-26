@@ -8,14 +8,14 @@
 
     <FrameLayout
         android:layout_weight="1"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/taskListPlaceholder"
         android:orientation="vertical"/>
 
     <FrameLayout
         android:layout_weight="1"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/taskDetailPlaceholder"
         android:orientation="vertical"/>
