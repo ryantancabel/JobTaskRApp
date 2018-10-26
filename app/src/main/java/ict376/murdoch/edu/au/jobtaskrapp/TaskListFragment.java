@@ -48,6 +48,7 @@ public class TaskListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Available Tasks");
+        initializeList();
 
     }
 
@@ -64,10 +65,9 @@ public class TaskListFragment extends Fragment {
         MyLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         MyRecyclerView.setLayoutManager(MyLayoutManager);
 
-        initializeList();
-
         return view;
     }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
