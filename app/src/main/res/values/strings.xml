@@ -12,6 +12,9 @@
     <string name="taskType">Task Type</string>
     <string name="Category">Task Category</string>
     <string name="taskRate">Task Rate</string>
+    <string name="notification">Notification</string>
+    <string name="default_notification_channel_id">Task accepted!</string>
+    <string name="default_notification_channel_title">Your tasked has been accepted.</string>
     <string-array name="taskTypeArray">
         <item>Hourly</item>
         <item>Daily</item>

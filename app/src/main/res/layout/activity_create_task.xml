@@ -99,6 +99,12 @@
             android:layout_height="wrap_content"
             android:onClick="Edit_Button_OnClick"
             android:text="@string/edit" />
+        <Button
+            android:id="@+id/bt_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="Notification_OnClick"
+            android:text="@string/notification" />
 
     </LinearLayout>
 
