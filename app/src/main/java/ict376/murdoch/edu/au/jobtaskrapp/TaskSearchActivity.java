@@ -1,6 +1,7 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,12 @@ public class TaskSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_search);
         Intent i = getIntent();
+
+        /*
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+
+
+        }*/
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.taskListPlaceholder);
