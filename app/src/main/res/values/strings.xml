@@ -28,5 +28,6 @@
 
     //for Task Searching and Viewing
     <string name="add_button">ADD</string>
+    <string name="email_client_button">EMAIL</string>
 
 </resources>

@@ -19,9 +19,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/itemPhoto"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
                 tools:ignore="ContentDescription"
                 />
 
@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/titleTextView"
-                android:layout_toRightOf="@+id/itemPhoto"
+                android:layout_toEndOf="@+id/itemPhoto"
                 android:layout_alignParentTop="true"
                 android:textSize="18sp"
                 />
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/price"
-                android:layout_toRightOf="@+id/itemPhoto"
+                android:layout_toEndOf="@+id/itemPhoto"
                 android:layout_below="@+id/titleTextView"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/location"
-                android:layout_toRightOf="@+id/itemPhoto"
+                android:layout_toEndOf="@+id/itemPhoto"
                 android:layout_below="@+id/price"
                 />
 
