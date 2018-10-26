@@ -1,8 +1,5 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -20,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
-import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -34,12 +30,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class NxtFragment extends Fragment {
+public class TaskListFragment extends Fragment {
 
     ArrayList<TaskDataModel> dataModelList = new ArrayList<>();
     RecyclerView MyRecyclerView;
 
-    private static final String TAG = NxtActivity.class.getName();
+    private static final String TAG = TaskSearchActivity.class.getName();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +48,7 @@ public class NxtFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.nxt_layout, container, false);
+        View view = inflater.inflate(R.layout.task_search_list, container, false);
         Button addButton = (Button) view.findViewById(R.id.addButton);
 
         MyRecyclerView = (RecyclerView) view.findViewById(R.id.cardView);
@@ -83,7 +79,7 @@ public class NxtFragment extends Fragment {
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.nxt_items, parent, false);
+                    .inflate(R.layout.task_card, parent, false);
             MyViewHolder holder = new MyViewHolder(view);
             return holder;
         }
@@ -91,12 +87,14 @@ public class NxtFragment extends Fragment {
         @Override
         public void onBindViewHolder(final MyViewHolder holder, int position) {
 
+            //add Task Name
             holder.titleTextView.setText(list.get(position).getTaskName());
 
+            //add Task Price
             String y = "$" + new DecimalFormat("#").format(list.get(position).getTaskRate());
+            holder.price.setText(y);
 
-            holder.description.setText(y);
-
+            //add Task Picture
             ParseFile x = list.get(position).getPicture();
             if(x != null) {
                 String imageUrl = x.getUrl();
@@ -107,6 +105,7 @@ public class NxtFragment extends Fragment {
                         .into(holder.itemPhoto);
             }
 
+            //add Task Location
             Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
             Location locality = list.get(position).getAddress();
             double latLocality = locality.getLatitude();
@@ -134,14 +133,14 @@ public class NxtFragment extends Fragment {
 
         public TextView titleTextView;
         public ImageView itemPhoto;
-        public TextView description;
+        public TextView price;
         public TextView location;
 
         public MyViewHolder(View v) {
             super(v);
             itemPhoto = (ImageView) v.findViewById(R.id.itemPhoto);
             titleTextView = (TextView) v.findViewById(R.id.titleTextView);
-            description = (TextView) v.findViewById(R.id.description);
+            price = (TextView) v.findViewById(R.id.price);
             location = (TextView) v.findViewById(R.id.location);
 
         }
