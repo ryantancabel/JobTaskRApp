@@ -33,7 +33,13 @@ public class Client_SignUp extends Fragment {
     protected TextView Email1;
     protected TextView pass1;
     protected TextView address1;
+    protected TextView Postcode1;
+    protected TextView Suburb1;
+ //   protected TextView State1;
+
+
     protected Button registeredLink1;
+
     public View fra;
 
 
@@ -62,8 +68,12 @@ public class Client_SignUp extends Fragment {
         Email1 = (TextView) fra.findViewById(R.id.Email);
         pass1 = (TextView) fra.findViewById(R.id.pass);
         address1 = (TextView) fra.findViewById(R.id.address);
+        Postcode1  = (TextView) fra.findViewById(R.id.postCode);
+        Suburb1  = (TextView) fra.findViewById(R.id.suburb);
+   //     State1  = (TextView) fra.findViewById(R.id.state);
 
         registeredLink1 = (Button) fra.findViewById(R.id.regist);
+
 
         registeredLink1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,19 +88,29 @@ public class Client_SignUp extends Fragment {
             @Override
             public void onClick(View view) {
 
+
                 String uName = Name1.getText().toString();
                 String UserName = userName1.getText().toString();
                 String userEmail = Email1.getText().toString();
                 String Password = pass1.getText().toString();
                 String Address = address1.getText().toString();
+                String Postcode = Postcode1.getText().toString();
+                String Suburb  = Suburb1.getText().toString();
+     //           String State  = State1.getText().toString();
 
-                ParseUser user = (ParseUser) new ParseObject("UserSignUpTable_Siddik");
+                ParseUser user = new ParseUser();
 
                 user.setUsername(UserName);
                 user.setPassword(Password);
                 user.setEmail(userEmail);
                 user.put("Name", uName);
-                user.put("uAddress", Address);
+                user.put("Address",Address);
+                user.put("Postcode", Postcode);
+                user.put("Suburb",Suburb);
+       //         user.put("State", State);
+
+
+
                 user.signUpInBackground(new SignUpCallback() {
                     @Override
                     public void done(ParseException e) {

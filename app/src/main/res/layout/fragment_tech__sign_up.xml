@@ -120,7 +120,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pass" />
-
+<!--
         <Spinner
             android:id="@+id/state"
             android:layout_width="217dp"
@@ -130,7 +130,7 @@
             android:entries="@array/state_Array"
             android:prompt="@string/e_Address_state" />
 
-
+-->
         <EditText
             android:id="@+id/postCode"
             android:layout_width="wrap_content"
@@ -163,7 +163,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pass" />
-
+<!--
         <CheckBox
             android:id="@+id/checkBox"
             android:layout_marginTop="10dp"
@@ -182,7 +182,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Agree T and C apply for joining as a Tech" />
-
+-->
         <Button
             android:id="@+id/signUpbtn"
             android:layout_width="144dp"

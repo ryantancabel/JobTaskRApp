@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.parse.ParseException;
@@ -26,8 +27,11 @@ public class Tech_SignUp extends Fragment {
     protected TextView pass1;
     protected TextView address1;
     protected Button registeredLink1;
+    protected TextView Postcode1;
+    protected TextView Suburb1;
+    protected TextView Skills;
+    //protected Spinner State1;
     public View fra;
-
 
     public static Tech_SignUp newInstance(){
 
@@ -48,6 +52,10 @@ public class Tech_SignUp extends Fragment {
         Email1 = (TextView) fra.findViewById(R.id.Email);
         pass1 = (TextView) fra.findViewById(R.id.pass);
         address1 = (TextView) fra.findViewById(R.id.address);
+        Postcode1  = (TextView) fra.findViewById(R.id.postCode);
+        Suburb1  = (TextView) fra.findViewById(R.id.suburb);
+        Skills  = (TextView) fra.findViewById(R.id.skill);
+      //  State1  = (Spinner) fra.findViewById(R.id.);
 
         registeredLink1 = (Button) fra.findViewById(R.id.regist);
 
@@ -68,14 +76,24 @@ public class Tech_SignUp extends Fragment {
                 String userEmail = Email1.getText().toString();
                 String Password = pass1.getText().toString();
                 String Address = address1.getText().toString();
+                String Postcode = Postcode1.getText().toString();
+               String Suburb  = Suburb1.getText().toString();
+               String Skill = Skills.getText().toString();
 
-                ParseUser user = (ParseUser) new ParseObject("UserSignUpTable_Siddik");
+        //        String State  = State1.getSelectedItem().toString();
+
+                ParseUser user = new ParseUser();
 
                 user.setUsername(UserName);
                 user.setPassword(Password);
                 user.setEmail(userEmail);
                 user.put("Name", uName);
-                user.put("uAddress", Address);
+                user.put("Address",Address);
+                user.put("Postcode", Postcode);
+                user.put("Suburb",Suburb);
+                user.put("Skills",Skill);
+//                user.put("State", State);
+
                 user.signUpInBackground(new SignUpCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -83,7 +101,7 @@ public class Tech_SignUp extends Fragment {
                         if (e == null) {
                             Toast.makeText(getActivity(), String.format("Sucessful Sign Up!"), Toast.LENGTH_SHORT).show();
                              Intent ProfilePage = SidePanelActivity.newIntent(getActivity());
-                            startActivity(ProfilePage);
+                             startActivity(ProfilePage);
                         } else {
                             ParseUser.logOut();
                             Toast.makeText(getActivity(), String.format("Sign Up failed"), Toast.LENGTH_SHORT).show();

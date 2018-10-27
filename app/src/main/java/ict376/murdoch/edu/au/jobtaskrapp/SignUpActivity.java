@@ -33,16 +33,13 @@ public class SignUpActivity extends AppCompatActivity {
 
                     case R.id.client_Nav:
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
                         // Fragment currentFragment = getApplicationContext().getFragmentManager().findFragmentById(R.id.fragment_container);
                         if (newTechSignupFg != null) {
                             ft.remove(newTechSignupFg);
-
                           //  ft.commit();
                         }
                         myFg = new Client_SignUp();
                         ft.replace(R.id.areaFragment, myFg);
-                       // ft.addToBackStack(null);
                         ft.commit();
                         flag = true;
                         break;
@@ -50,7 +47,6 @@ public class SignUpActivity extends AppCompatActivity {
                         FragmentTransaction fx = getSupportFragmentManager().beginTransaction();
                         newTechSignupFg = new Tech_SignUp();
                         fx.replace(R.id.areaFragment, newTechSignupFg);
-                     //   fx.addToBackStack(null);
                         fx.commit();
                         flag = true;
                         break;
