@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -21,9 +22,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CreateTaskActivity"></activity>
+        <activity android:name=".CreateTaskActivity" />
 
-        <activity android:name=".NxtActivity"></activity>
+        <activity android:name=".TaskSearchActivity" />
+
+        <activity android:name=".EditTaskDetail" />
 
         <meta-data
             android:name="com.parse.SERVER_URL"
@@ -34,7 +37,6 @@
         <meta-data
             android:name="com.parse.CLIENT_KEY"
             android:value="@string/back4app_client_key" />
-
 
     </application>
 

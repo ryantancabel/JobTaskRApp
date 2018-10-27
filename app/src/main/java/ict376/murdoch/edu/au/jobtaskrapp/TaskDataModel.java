@@ -3,9 +3,11 @@ package ict376.murdoch.edu.au.jobtaskrapp;
 
 import android.location.Location;
 import com.parse.ParseFile;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class TaskDataModel {
+public class TaskDataModel implements Serializable {
 
     private String taskName;
     private String taskDesc;
@@ -14,6 +16,10 @@ public class TaskDataModel {
     private Date dateWhen;
     private Date datePosted;
     private Double taskRate;
+
+
+    //add default constructor:
+    public TaskDataModel(){}
 
     public TaskDataModel(String taskName, String taskDescp, ParseFile picture, Location address,
                          Date dateWhen, Date datePosted, Double taskRate)

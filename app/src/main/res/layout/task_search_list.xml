@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    tools:context=".NxtActivity">
+    tools:context=".TaskSearchActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cardView"
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/cardView"
         android:layout_alignEnd="@+id/cardView"
-        android:text="ADD"
+        android:text="@string/add_button"
         android:onClick="pressedNextButton"/>
 
 </RelativeLayout>

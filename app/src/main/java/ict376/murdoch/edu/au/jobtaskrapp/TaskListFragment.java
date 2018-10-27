@@ -1,14 +1,14 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.res.Configuration;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,10 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
-import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -29,22 +30,25 @@ import com.parse.ParseQuery;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class NxtFragment extends Fragment {
+public class TaskListFragment extends Fragment {
+
 
     ArrayList<TaskDataModel> dataModelList = new ArrayList<>();
     RecyclerView MyRecyclerView;
 
-    private static final String TAG = NxtActivity.class.getName();
+    private static final String TAG = TaskSearchActivity.class.getName();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Available Tasks");
+        initializeList();
 
     }
 
@@ -52,7 +56,7 @@ public class NxtFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.nxt_layout, container, false);
+        View view = inflater.inflate(R.layout.task_search_list, container, false);
         Button addButton = (Button) view.findViewById(R.id.addButton);
 
         MyRecyclerView = (RecyclerView) view.findViewById(R.id.cardView);
@@ -61,10 +65,9 @@ public class NxtFragment extends Fragment {
         MyLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         MyRecyclerView.setLayoutManager(MyLayoutManager);
 
-        initializeList();
-
         return view;
     }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -83,20 +86,22 @@ public class NxtFragment extends Fragment {
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.nxt_items, parent, false);
+                    .inflate(R.layout.task_card, parent, false);
             MyViewHolder holder = new MyViewHolder(view);
             return holder;
         }
 
         @Override
-        public void onBindViewHolder(final MyViewHolder holder, int position) {
+        public void onBindViewHolder(final MyViewHolder holder, int position){
 
+            //add Task Name
             holder.titleTextView.setText(list.get(position).getTaskName());
 
+            //add Task Price
             String y = "$" + new DecimalFormat("#").format(list.get(position).getTaskRate());
+            holder.price.setText(y);
 
-            holder.description.setText(y);
-
+            //add Task Picture
             ParseFile x = list.get(position).getPicture();
             if(x != null) {
                 String imageUrl = x.getUrl();
@@ -107,6 +112,7 @@ public class NxtFragment extends Fragment {
                         .into(holder.itemPhoto);
             }
 
+            //add Task Location
             Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
             Location locality = list.get(position).getAddress();
             double latLocality = locality.getLatitude();
@@ -120,7 +126,35 @@ public class NxtFragment extends Fragment {
             String city = addresses.get(0).getLocality();
             holder.location.setText(city);
 
+            holder.setItemClickListener(new ItemClickListener() {
+                @Override
+                public void onClick(View view, int position, String title) {
+
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    TaskDetailFragment tdf = new TaskDetailFragment();
+
+                    Bundle arguments = new Bundle();
+                    arguments.putSerializable("taskObject", dataModelList.get(position));
+                    tdf.setArguments(arguments);
+
+                    if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+
+                        ft.replace(R.id.taskListPlaceholder, tdf, getTag()).addToBackStack(getTag()).commit();
+
+                    }
+                    else {
+
+                        ft.replace(R.id.taskDetailPlaceholder, tdf, getTag()).addToBackStack(getTag()).commit();
+
+                    }
+                }
+            });
+
+
         }
+
+
 
         @Override
         public int getItemCount() {
@@ -130,19 +164,34 @@ public class NxtFragment extends Fragment {
     }
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView titleTextView;
         public ImageView itemPhoto;
-        public TextView description;
+        public TextView price;
         public TextView location;
+        private ItemClickListener itemClickListener;
 
         public MyViewHolder(View v) {
             super(v);
             itemPhoto = (ImageView) v.findViewById(R.id.itemPhoto);
             titleTextView = (TextView) v.findViewById(R.id.titleTextView);
-            description = (TextView) v.findViewById(R.id.description);
+            price = (TextView) v.findViewById(R.id.price);
             location = (TextView) v.findViewById(R.id.location);
+
+            v.setOnClickListener(this);
+
+        }
+
+        public void setItemClickListener(ItemClickListener itemClickListener)
+        {
+            this.itemClickListener = itemClickListener;
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            itemClickListener.onClick(v, getAdapterPosition(), titleTextView.getText().toString());
 
         }
     }

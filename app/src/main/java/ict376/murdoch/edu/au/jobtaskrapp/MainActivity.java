@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                         if (parseUser != null) {
                             Toast.makeText(MainActivity.this, "Yes", Toast.LENGTH_SHORT).show();
 
-                            Intent i = new Intent(MainActivity.this, NxtActivity.class);
+                            Intent i = new Intent(MainActivity.this, TaskSearchActivity.class);
                             startActivity(i);
 
                         } else {
