@@ -201,7 +201,7 @@ public class TaskListFragment extends Fragment {
         //parse query connect to your table
         ParseQuery<ParseObject> query =  ParseQuery.getQuery("Task");
 
-        query.include("User");
+        query.include("Task.User");
         //Sort by created at or can be used updated At column in the parse table
         query.orderByAscending("_created_at");
 
@@ -229,15 +229,22 @@ public class TaskListFragment extends Fragment {
                             androidAddress.setLongitude(0);
                         }
 
-                        ParseObject user = task.getParseObject("User");
+                        String userName = null;
+                        String email = null;
 
-
+                        ParseObject user = task.getParseObject("UserPointer");
+                        try {
+                            userName = user.fetchIfNeeded().getString("username");
+                            email = user.fetchIfNeeded().getString("email");
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
 
 
                         TaskDataModel mTaskData = new TaskDataModel(task.getString("Title"), task.getString("Description"),
                                 task.getParseFile("Image"), androidAddress, task.getDate("TaskWhen"),
-                                task.getDate("PostedWhen"), task.getDouble("TaskRate"), user.getString("username"),
-                                user.getString("email"));
+                                task.getDate("PostedWhen"), task.getDouble("TaskRate"), userName,
+                                email);
 
                         dataModelList.add(mTaskData);
                     }
