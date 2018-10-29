@@ -1,8 +1,10 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,6 +25,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class TaskDetailFragment extends Fragment {
+
+    TaskDataModel task;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,7 +50,7 @@ public class TaskDetailFragment extends Fragment {
         TextView description = (TextView) view.findViewById(R.id.description);
 
         Bundle b = getArguments();
-        TaskDataModel task = (TaskDataModel) b.getSerializable("taskObject");
+        task = (TaskDataModel) b.getSerializable("taskObject");
 
         //loading content
 
@@ -80,6 +84,25 @@ public class TaskDetailFragment extends Fragment {
         description.setText(task.getTaskDescp());
 
         return view;
+    }
+
+    public void createEmail() {
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_EMAIL, task.getEmailAddress());
+        intent.putExtra(Intent.EXTRA_SUBJECT, "I'm here to help!");
+        intent.setType("message/rfc822");
+        startActivity(Intent.createChooser(intent, "Select your preferred email app"));
+
+    }
+
+    public void getDirections() {
+        Uri directionUri = Uri.parse("google.streetview:cbll=" + task.getAddress().getLatitude() +
+        "," + task.getAddress().getLongitude());
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, directionUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+
+        startActivity(mapIntent);
     }
 
 }

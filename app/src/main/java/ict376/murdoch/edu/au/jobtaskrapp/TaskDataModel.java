@@ -17,12 +17,16 @@ public class TaskDataModel implements Serializable {
     private Date datePosted;
     private Double taskRate;
 
+    private String clientName;
+    private String emailAddress;
+
 
     //add default constructor:
     public TaskDataModel(){}
 
     public TaskDataModel(String taskName, String taskDescp, ParseFile picture, Location address,
-                         Date dateWhen, Date datePosted, Double taskRate)
+                         Date dateWhen, Date datePosted, Double taskRate, String clientName,
+                         String emailAddress)
     {
         super();
         setTaskName(taskName);
@@ -32,6 +36,8 @@ public class TaskDataModel implements Serializable {
         setDateWhen(dateWhen);
         setDatePosted(datePosted);
         setTaskRate(taskRate);
+        setClientName(clientName);
+        setEmailAddress(emailAddress);
     }
 
     public void setTaskName(String taskName) {
@@ -62,6 +68,10 @@ public class TaskDataModel implements Serializable {
         this.taskRate = taskRate;
     }
 
+    public void setClientName(String clientName) {this.clientName = clientName; }
+
+    public void setEmailAddress(String emailAddress) {this.emailAddress = emailAddress; }
+
     public String getTaskDescp() {
         return taskDesc;
     }
@@ -79,6 +89,10 @@ public class TaskDataModel implements Serializable {
     public Date getDatePosted() { return datePosted; }
 
     public Double getTaskRate() {return taskRate; }
+
+    public String getClientName() {return clientName; }
+
+    public String getEmailAddress() {return emailAddress; }
 
     @Override
     public String toString()
