@@ -6,10 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,8 +23,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class SidePanelActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
+public class SidePanelActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,BottomNavigationView.OnNavigationItemSelectedListener
 {
+    //Need this for bottom navigation view Fragment switching
+    TaskListFragment  tkfg = null;
+    HelpFragment helpfg = null;
+    protected boolean flag = false;
+    //end
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +54,9 @@ public class SidePanelActivity extends AppCompatActivity implements NavigationVi
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottomNavigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         Intent i = getIntent();
 
@@ -141,6 +153,39 @@ public class SidePanelActivity extends AppCompatActivity implements NavigationVi
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1,notificationBuilder.build());
 
+    }
+
+
+    //Bottom Navigation working fine, at the moment using HelpFragment to display ImageView to say under-construction
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener;
+    {
+        mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+
+                    case R.id.navigation_home:
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        // Fragment currentFragment = getApplicationContext().getFragmentManager().findFragmentById(R.id.fragment_container);
+                        tkfg = new TaskListFragment();
+                        ft.replace(R.id.taskListPlaceholder, tkfg);
+                        ft.commit();
+                        flag = true;
+                        break;
+                    case R.id.navigation_complete:
+                        FragmentTransaction fx = getSupportFragmentManager().beginTransaction();
+                        helpfg = new HelpFragment();
+                        fx.replace(R.id.taskListPlaceholder, helpfg);
+                        fx.commit();
+                        flag = true;
+                        break;
+                }
+
+                return flag;
+            }
+        };
     }
 
 }

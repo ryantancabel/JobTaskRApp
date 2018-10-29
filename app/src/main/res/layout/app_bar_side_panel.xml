@@ -20,6 +20,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
+
     <include layout="@layout/content_side_panel" />
 
     <android.support.design.widget.FloatingActionButton
@@ -27,7 +28,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:layout_marginBottom="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_dialog_email"
+        />
+
+    <!--Here is the bottomNavigation layout working-->
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@color/colorNavIcon"
+        android:layout_gravity="bottom|end"
+        app:itemTextColor="@color/colorNavText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/bottomnavigation"/>
+    <!--end-->
 
 </android.support.design.widget.CoordinatorLayout>

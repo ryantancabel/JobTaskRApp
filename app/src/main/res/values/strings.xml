@@ -111,4 +111,8 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="add">ADD</string>
 
+<!--For bottom navigation menu string-->
+    <string name="bottom_title_home">Home</string>
+    <string name="bottom_title_dashboard">Dashboard</string>
+
 </resources>
