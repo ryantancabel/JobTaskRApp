@@ -1,6 +1,8 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,37 +23,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Parse.initialize(this);
         setContentView(R.layout.activity_main);
+        loginFragment();
+    }
 
-        final Button login_button = (Button) findViewById(R.id.login_button);
-        final TextView username = (TextView) findViewById(R.id.username);
-        final TextView password = (TextView) findViewById(R.id.password);
+    public void loginFragment(){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.lgareaFragment, new LoginFragment());
+        ft.commit();
 
+        //This is the new file
+    }
 
-        login_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser.logInInBackground(username.getText().toString(), password.getText().toString(), new LogInCallback() {
-                    @Override
-                    public void done(ParseUser parseUser, ParseException e) {
-                        if (parseUser != null) {
-                            Toast.makeText(MainActivity.this, "Yes", Toast.LENGTH_SHORT).show();
-
-                            Intent i = new Intent(MainActivity.this, TaskSearchActivity.class);
-                            startActivity(i);
-
-                        } else {
-                            Toast.makeText(MainActivity.this, "No", Toast.LENGTH_SHORT).show();
-                            ParseUser.logOut();
-                        }
-                    }
-
-                });
-            }
-        });
-
-        //save current installation to Back4App
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+    public static Intent newIntent(Context packageContext){
+        Intent i = new Intent(packageContext, MainActivity.class);
+        return i;
     }
 }

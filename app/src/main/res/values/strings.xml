@@ -9,6 +9,19 @@
     <string name="back4app_app_id">9BUYlvRrQmWFFen57EDGwGlV1mpJ2rQdozhOVjzo</string>
     <string name="back4app_client_key">diaZIy36U5Spz7ufdAWaEgrXG3fHQyicEI56gtsc</string>
     <string name="title_activity_main2">Main2Activity</string>
+   <!--code combine-->
+    <string name="title_activity_side_panel">SidePanelActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">JobTasker Team</string>
+    <string name="nav_header_subtitle">JobTasker@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="help">This section has QandA and also user guide for the application</string>
 
     //for Task Adding and Editing
     <string name="edit">Edit</string>
@@ -29,5 +42,73 @@
     //for Task Searching and Viewing
     <string name="add_button">ADD</string>
     <string name="email_client_button">EMAIL</string>
+
+
+    <!-- Strings related to SignUp form -->
+    <string name="name">Name</string>
+    <string name="enter_full_name">Enter Full Name</string>
+    <string name="enter_user_name">Enter User Name</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="enter_password">Enter password</string>
+    <string name="enter_address">Enter Address</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="already_registered">Already Registered?</string>
+    <string name="user_name">User_Name</string>
+    <string name="create_job">Create Job</string>
+    <string name="logout">Logout</string>
+    <string name="upload">Upload</string>
+    <string name="enter_job_request">Enter Job Request</string>
+    <string name="create_account">Create Account</string>
+
+
+    <!--- for signup form -->
+    <string name="e_Name">Enter Name</string>
+    <string name="e_uName">Enter UserName</string>
+    <string name="e_Email">Enter Email</string>
+    <string name="e_pass">Enter Password</string>
+    <string name="e_Address">Enter your Address</string>
+    <string name="e_Address_sub">Enter Suburb</string>
+    <string name="e_Address_state">Select State</string>
+    <string name="e_Address_postcode">Enter Postcode</string>
+    <string name="e_Skill">Enter your Skills (Use "," as a separator)</string>
+    <string-array name="state_Array">
+        <item>Queensland</item>
+        <item>New South Wales</item>
+        <item>Victoria</item>
+        <item>Tasmania</item>
+        <item>South Australia</item>
+        <item>Western Australia</item>
+    </string-array>
+
+    <!-- for signup tab -->
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="testing">Invalid tapping</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+
+    <string name="title_activity_login">Signin</string>
+
+    <string name="title_activity_navigation_side_panel">NavigationSidePanel</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="title_activity_sign_up__testing">SignUp_TestingActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="add">ADD</string>
 
 </resources>
