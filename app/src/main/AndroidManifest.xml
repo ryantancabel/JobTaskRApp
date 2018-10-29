@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -21,27 +21,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".CreateTaskActivity" />
-
         <activity android:name=".TaskSearchActivity" />
-
         <activity android:name=".EditTaskDetail" />
 
-        <!-- Combine code 27/10-->
+        <!-- Combine code 27/10 -->
         <activity
             android:name=".SidePanelActivity"
             android:label="@string/title_activity_side_panel"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <!--end-->
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <!-- end -->
 
         <meta-data
             android:name="com.parse.SERVER_URL"

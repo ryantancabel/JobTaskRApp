@@ -3,6 +3,7 @@ package ict376.murdoch.edu.au.jobtaskrapp;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -14,11 +15,15 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import com.parse.ParseUser;
 
 public class SidePanelActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
@@ -83,7 +88,7 @@ public class SidePanelActivity extends AppCompatActivity implements NavigationVi
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.notification) {
             return true;
         }
 
@@ -97,14 +102,41 @@ public class SidePanelActivity extends AppCompatActivity implements NavigationVi
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            FragmentManager fm = getSupportFragmentManager();
+            Fragment fragment = fm.findFragmentById(R.id.taskListPlaceholder);
+
+            if (fragment == null) {
+                fragment = new TaskListFragment();
+                fm.beginTransaction().add(R.id.taskListPlaceholder, fragment).commit();
+            }
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.help) {
+
+            AlertDialog.Builder alerBuilder = new AlertDialog.Builder(this);
+            String help = getString(R.string.Help_Fragment);
+            alerBuilder.setMessage(help);
+            alerBuilder.setTitle("App User Guide");
+            alerBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            AlertDialog alertbox = alerBuilder.create();
+            alertbox.show();
 
         } else if (id == R.id.nav_manage) {
 
-        }/* else if (id == R.id.nav_share) {
+            ParseUser.logOut();
+            Toast.makeText(this, String.format("Loged out"), Toast.LENGTH_SHORT).show();
+            Intent ProfilePage = new Intent(this, MainActivity.class);
+            startActivity(ProfilePage);
+
+        }/* else if (id == R.id.help) {
+
+
 
         } else if (id == R.id.nav_send) {
 
