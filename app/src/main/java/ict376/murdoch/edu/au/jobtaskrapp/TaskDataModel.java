@@ -16,7 +16,6 @@ public class TaskDataModel implements Serializable {
     private Date dateWhen;
     private Date datePosted;
     private Double taskRate;
-
     private String clientName;
     private String emailAddress;
 
@@ -38,6 +37,7 @@ public class TaskDataModel implements Serializable {
         setTaskRate(taskRate);
         setClientName(clientName);
         setEmailAddress(emailAddress);
+
     }
 
     public void setTaskName(String taskName) {

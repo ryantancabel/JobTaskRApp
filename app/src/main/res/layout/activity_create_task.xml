@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CreateTaskActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,6 +50,7 @@
             android:inputType="textPersonName"
             android:singleLine="false"
             android:visibility="visible" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,6 +88,19 @@
                 android:inputType="textPersonName" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/location_button"
+            android:layout_width="292dp"
+            android:layout_height="wrap_content"
+            android:text="GetLocation" />
+
+        <Button
+            android:id="@+id/taskDeadline"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:text="Choose Task Deadline" />
+
         <Button
             android:id="@+id/bt_save"
             android:layout_width="wrap_content"
