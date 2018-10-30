@@ -27,6 +27,11 @@
         adding job to help someone to solve your technical job you are facing.
 
     </string>
+    <!--for notification-->
+    <string name="notification">Accept Task</string>
+    <string name="default_notification_channel_id">Task accepted!</string>
+    <string name="default_notification_channel_title">Your tasked has been accepted.</string>
+
 
 
     <!-- TODO: Remove or change this placeholder text -->
