@@ -1,5 +1,8 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
+import android.app.NotificationManager;
+import android.graphics.BitmapFactory;
+import android.support.v4.app.NotificationCompat;
 import android.text.format.DateFormat;
 import android.Manifest;
 import android.app.DatePickerDialog;
@@ -47,7 +50,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
     int finalday, finalmonth, finalyear;
 
 
-    //for SpiRRnner
+    //for Spinner
     private Spinner taskType;
     ParseObject tasks = new ParseObject("Task");
 
@@ -165,7 +168,10 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
         //tasks.put("UserPointer", ParseUser.getCurrentUser().getObjectId());
 
         tasks.saveInBackground();
-
+        Notification();
+     /*
+        Intent FeedPage= new Intent(CreateTaskActivity.this, SidePanelActivity.class);
+        startActivity(FeedPage); */
     }
     public void Edit_Button_OnClick(View view) {
         Intent i = new Intent(CreateTaskActivity.this, EditTaskDetail.class);
@@ -193,8 +199,18 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
     }
 
 
-    private Date calendarToDate(Calendar calendar) {
-        return calendar.getTime();
+    public void Notification(){
+
+        NotificationCompat.Builder notificationBuilder;
+        notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(CreateTaskActivity.this).setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setSmallIcon(R.drawable.ic_menu_share)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_menu_share))
+                .setContentTitle("Notification: JobTasker")
+                .setContentText("Your Job has been posted, someone will contact you for the job soon!");
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1,notificationBuilder.build());
+
     }
 
 

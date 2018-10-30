@@ -43,14 +43,14 @@ public class SidePanelActivity extends AppCompatActivity implements NavigationVi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+     /*   FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Notification();
             }
         });
-
+*/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -113,7 +113,7 @@ public class SidePanelActivity extends AppCompatActivity implements NavigationVi
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        /*if (id == R.id.nav_camera) {
             FragmentManager fm = getSupportFragmentManager();
             Fragment fragment = fm.findFragmentById(R.id.taskListPlaceholder);
 
@@ -123,7 +123,8 @@ public class SidePanelActivity extends AppCompatActivity implements NavigationVi
             }
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.help) {
+        } else */
+        if (id == R.id.help){
 
             AlertDialog.Builder alerBuilder = new AlertDialog.Builder(this);
             String help = getString(R.string.Help_Fragment);
@@ -146,14 +147,7 @@ public class SidePanelActivity extends AppCompatActivity implements NavigationVi
             Intent ProfilePage = new Intent(this, MainActivity.class);
             startActivity(ProfilePage);
 
-        }/* else if (id == R.id.help) {
-
-
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
-
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -172,7 +166,7 @@ public class SidePanelActivity extends AppCompatActivity implements NavigationVi
 
     }
 
-
+//FOR INTERNAL NOTIFICATION FUNCTION USED FOR FLOATING BUTTON
     public void Notification(){
 
         NotificationCompat.Builder notificationBuilder;

@@ -22,7 +22,7 @@
 
 
     <include layout="@layout/content_side_panel" />
-
+<!--
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
         android:layout_marginBottom="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email"
         />
-
+-->
     <!--Here is the bottomNavigation layout working-->
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavigation"
