@@ -114,13 +114,13 @@ public class SidePanelActivity extends AppCompatActivity implements NavigationVi
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            FragmentManager fm = getSupportFragmentManager();
-            Fragment fragment = fm.findFragmentById(R.id.taskListPlaceholder);
-
-            if (fragment == null) {
-                fragment = new TaskListFragment();
-                fm.beginTransaction().add(R.id.taskListPlaceholder, fragment).commit();
-            }
+//            FragmentManager fm = getSupportFragmentManager();
+//            Fragment fragment = fm.findFragmentById(R.id.taskListPlaceholder);
+//
+//            if (fragment == null) {
+//                fragment = new TaskListFragment();
+//                fm.beginTransaction().add(R.id.taskListPlaceholder, fragment).commit();
+//            }
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.help) {

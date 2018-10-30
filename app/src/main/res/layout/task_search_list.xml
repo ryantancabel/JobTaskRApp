@@ -17,6 +17,7 @@
         android:id="@+id/addButton"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="67dp"
         android:layout_alignBottom="@+id/cardView"
         android:layout_alignEnd="@+id/cardView"
         android:text="@string/add_button"
