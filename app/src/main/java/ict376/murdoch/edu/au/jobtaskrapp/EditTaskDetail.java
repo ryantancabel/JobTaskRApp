@@ -25,7 +25,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.io.ByteArrayOutputStream;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class EditTaskDetail extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
@@ -41,6 +43,7 @@ public class EditTaskDetail extends AppCompatActivity implements AdapterView.OnI
     ArrayList<TaskDataModel> dataModelList = new ArrayList<>();
     String id = "R4vyTBkoW9";
 
+
     //for SpiRRnner
     private Spinner taskType;
 
@@ -50,6 +53,7 @@ public class EditTaskDetail extends AppCompatActivity implements AdapterView.OnI
         setContentView(R.layout.activity_edit_task_detail);
         Parse.initialize(this);
         Intent i = getIntent();
+
 
         taskTitle=(TextView)findViewById(R.id.ed_TaskTitle);
         description=(TextView)findViewById(R.id.ed_Description);
@@ -89,8 +93,9 @@ public class EditTaskDetail extends AppCompatActivity implements AdapterView.OnI
                         taskTitle.setText(task.getString("Title"));
                         description.setText(task.getString("Description"));
                         taskRate.setText(String.valueOf(task.getInt("TaskRate")));
-                        //Spinner set value coming from database
 
+
+                        //Spinner set value coming from database
                         String rateValue = task.getString("RateDuration");
 
                         int position = 0;

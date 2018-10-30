@@ -90,6 +90,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/description"
             android:layout_below="@+id/client_info_layout"/>
+        <Button
+            android:id="@+id/bt_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/client_info_layout"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="51dp"
+            android:layout_marginBottom="8dp"
+            android:onClick="Notification_OnClick"
+            android:text="@string/notification" />
+
 
     </RelativeLayout>
 
