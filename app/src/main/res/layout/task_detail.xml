@@ -6,7 +6,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="?android:attr/actionBarSize"
+        android:paddingBottom="?android:attr/actionBarSize">
 
         <ImageView
             android:id="@+id/task_image"
@@ -30,10 +32,10 @@
                 />
 
             <Button
-                android:id="@+id/emailClient2"
+                android:id="@+id/navigate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/email_client_button"
+                android:text="NAVIGATE"
                 />
 
         </LinearLayout>
@@ -90,6 +92,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/description"
             android:layout_below="@+id/client_info_layout"/>
+       <!--
         <Button
             android:id="@+id/bt_notification"
             android:layout_width="wrap_content"
@@ -100,7 +103,7 @@
             android:layout_marginBottom="8dp"
             android:onClick="Notification_OnClick"
             android:text="@string/notification" />
-
+<-->
 
     </RelativeLayout>
 

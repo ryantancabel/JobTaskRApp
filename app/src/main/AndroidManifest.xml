@@ -23,7 +23,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".CreateTaskActivity" />
-        <activity android:name=".TaskSearchActivity" />
+        <activity android:name=".TaskSearchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SENDTO" />
+                <data android:scheme="mailto" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".EditTaskDetail" />
 
         <!-- Combine code 27/10 -->
