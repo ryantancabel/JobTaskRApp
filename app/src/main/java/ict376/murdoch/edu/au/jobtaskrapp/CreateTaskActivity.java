@@ -38,21 +38,20 @@ import java.util.Date;
 
 public class CreateTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
-    private TextView LocationView, taskTitle, description, taskRate, deadline;
+    private TextView LocationView, taskTitle, description, taskRate, deadline, GeoLocation, CurrentTimeStamp;
     private String title, des, rateDuration;
     private int rate;
     protected Button LocationButton, TaskdeadLineButton;
     private static final int REQUEST_LOCATION = 1;
     private LocationManager locationManager;
 
-
+    private Date dateTimestamp = Calendar.getInstance().getTime();
     int day, month, year;
     int finalday, finalmonth, finalyear;
 
-
     //for Spinner
     private Spinner taskType;
-    ParseObject tasks = new ParseObject("Task");
+    private ParseObject tasks = new ParseObject("Task");
 
 
     @Override
@@ -68,7 +67,15 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
         description = (TextView) findViewById(R.id.ed_Description);
         taskRate = (TextView) findViewById(R.id.taskRate);
         taskType = (Spinner) findViewById(R.id.taskType);
+        deadline = (TextView) findViewById(R.id.Deadline);
+        GeoLocation = (TextView) findViewById(R.id.Location);
+        CurrentTimeStamp = (TextView) findViewById(R.id.CurrentTimeStamp);
+
+
+        CurrentTimeStamp.setText(dateTimestamp.toString());
+
         TaskdeadLineButton = (Button) findViewById(R.id.taskDeadline);
+
 
         TaskdeadLineButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +126,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
                     // if it isn't, save it to Back4App Dashboard
                     ParseGeoPoint currentUserLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
                     tasks.put("Location", currentUserLocation);
+                    GeoLocation.setText(currentUserLocation.toString());
                 }
                 else {
                     Toast.makeText(this, String.format("Location is Null"), Toast.LENGTH_SHORT).show();
@@ -152,7 +160,6 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
             des =description.getText().toString();
             rate = Integer.valueOf( taskRate.getText().toString());
             rateDuration = taskType.getSelectedItem().toString();
-
         }
 
 
@@ -160,14 +167,31 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
         tasks.put("Description",des);
         tasks.put("TaskRate",rate);
         tasks.put("RateDuration", rateDuration);
-        Date dateTimestamp = Calendar.getInstance().getTime();
         tasks.put("PostedWhen",dateTimestamp);
 
-        // String currentUser = ParseUser.getCurrentUser().getObjectId();
 
-        //tasks.put("UserPointer", ParseUser.getCurrentUser().getObjectId());
+    //    ParseObject currentUser = ParseUser.getCurrentUser();
+      //  tasks.put("UserPointer", ParseObject.createWithoutData("User", currentUser.getObjectId()));
 
+
+//This two below lines execute no error but cant input data in the parse table
+//        ParseUser currentUser = ParseUser.getCurrentUser();
+  //      tasks.put("UserPointer", ParseObject.createWithoutData("User", "fV78vHAwtB"));
+
+
+/*         ParseUser currentUser = ParseUser.getCurrentUser();
+
+        if(currentUser != null) {
+            tasks.put("UserPointer", currentUser.getObjectId());//getParseObject("objectId"));
+            Toast.makeText(this, String.format("This is" + currentUser.getObjectId()), Toast.LENGTH_SHORT).show();
+
+        }else{
+            Toast.makeText(this, String.format("Their is no current user"), Toast.LENGTH_SHORT).show();
+
+        }
+*/
         tasks.saveInBackground();
+  //      updateObject();
         Notification();
      /*
         Intent FeedPage= new Intent(CreateTaskActivity.this, SidePanelActivity.class);
@@ -195,6 +219,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
         deadlineDate.setMonth(finalmonth);
         deadlineDate.setYear(finalyear);
         tasks.put("TaskWhen",deadlineDate);
+        deadline.setText(deadlineDate.toString());
 
     }
 
@@ -213,5 +238,24 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
 
     }
 
+/*
+    public void updateObject(){
 
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        tasks.put("UserPointer", ParseObject.createWithoutData("User", currentUser.getObjectId()));
+
+        if(currentUser != null) {
+          //  tasks.put("UserPointer", currentUser.getObjectId());//getParseObject("objectId"));
+           // Toast.makeText(this, String.format("Their is " + currentUser.getObjectId()), Toast.LENGTH_SHORT).show();
+
+            tasks.put("UserPointer", ParseObject.createWithoutData("User", currentUser.getObjectId()));
+
+            tasks.saveInBackground();
+        }else{
+            Toast.makeText(this, String.format("Their is no current user"), Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+*/
 }

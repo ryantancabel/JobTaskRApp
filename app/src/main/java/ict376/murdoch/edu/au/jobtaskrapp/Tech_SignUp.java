@@ -79,6 +79,7 @@ public class Tech_SignUp extends Fragment{
                 String Suburb  = Suburb1.getText().toString();
                 String Skill = Skills.getText().toString();
                 String StateName = State1.getSelectedItem().toString();
+                String Tech = "Tech";
 
                 ParseUser user = new ParseUser();
 
@@ -91,6 +92,7 @@ public class Tech_SignUp extends Fragment{
                 user.put("Suburb",Suburb);
                 user.put("Skills",Skill);
                 user.put("State", StateName);
+                user.put("UserType", Tech);
 
                 user.signUpInBackground(new SignUpCallback() {
                     @Override
