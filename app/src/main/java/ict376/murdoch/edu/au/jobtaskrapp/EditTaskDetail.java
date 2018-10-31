@@ -1,12 +1,17 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,20 +19,30 @@ import android.widget.Toast;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.io.ByteArrayOutputStream;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class EditTaskDetail extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class EditTaskDetail extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     private TextView taskTitle, description, taskRate;
     private String title, des,rateDuration;
     private int rate;
+
+    //declare button
+    private Button uploadpic;
+    private static final int CAMERA_REQUEST = 1888;
+
     //   private Object image;
     ArrayList<TaskDataModel> dataModelList = new ArrayList<>();
     String id = "R4vyTBkoW9";
+
 
     //for SpiRRnner
     private Spinner taskType;
@@ -39,10 +54,17 @@ public class EditTaskDetail extends AppCompatActivity implements AdapterView.OnI
         Parse.initialize(this);
         Intent i = getIntent();
 
+
         taskTitle=(TextView)findViewById(R.id.ed_TaskTitle);
         description=(TextView)findViewById(R.id.ed_Description);
         taskRate = (TextView)findViewById(R.id.taskRate);
         taskType = (Spinner)findViewById(R.id.taskType);
+
+        //initialise button
+        uploadpic = (Button) findViewById(R.id.bt_uploadPicture);
+        //add listener for the upload image button
+        uploadpic.setOnClickListener(this);
+
         //add listener On Spinner
         addListenerOnSpinnerItemSelection(taskType);
 
@@ -71,8 +93,9 @@ public class EditTaskDetail extends AppCompatActivity implements AdapterView.OnI
                         taskTitle.setText(task.getString("Title"));
                         description.setText(task.getString("Description"));
                         taskRate.setText(String.valueOf(task.getInt("TaskRate")));
-                        //Spinner set value coming from database
 
+
+                        //Spinner set value coming from database
                         String rateValue = task.getString("RateDuration");
 
                         int position = 0;
@@ -134,5 +157,30 @@ public class EditTaskDetail extends AppCompatActivity implements AdapterView.OnI
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        //Show Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Upload or Take a Photo");
+        builder.setPositiveButton("Upload", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+               //upload image function here
+            }
+        });
+        builder.setNegativeButton("Take Photo", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //take photo function here
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            } //use camera end
+
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

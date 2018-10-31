@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +33,7 @@ public class Client_SignUp extends Fragment{
     protected TextView address1;
     protected TextView Postcode1;
     protected TextView Suburb1;
-    //   protected TextView State1;
+    protected Spinner  State1;
 
 
     protected Button registeredLink1;
@@ -67,7 +68,7 @@ public class Client_SignUp extends Fragment{
         address1 = (TextView) fra.findViewById(R.id.address);
         Postcode1  = (TextView) fra.findViewById(R.id.postCode);
         Suburb1  = (TextView) fra.findViewById(R.id.suburb);
-        //     State1  = (TextView) fra.findViewById(R.id.state);
+        State1  = (Spinner) fra.findViewById(R.id.state);
 
         registeredLink1 = (Button) fra.findViewById(R.id.regist);
 
@@ -93,7 +94,8 @@ public class Client_SignUp extends Fragment{
                 String Address = address1.getText().toString();
                 String Postcode = Postcode1.getText().toString();
                 String Suburb  = Suburb1.getText().toString();
-                //           String State  = State1.getText().toString();
+                String StateName = State1.getSelectedItem().toString();
+
 
                 ParseUser user = new ParseUser();
 
@@ -104,7 +106,7 @@ public class Client_SignUp extends Fragment{
                 user.put("Address",Address);
                 user.put("Postcode", Postcode);
                 user.put("Suburb",Suburb);
-                //         user.put("State", State);
+                user.put("State", StateName);
 
 
 
@@ -155,4 +157,5 @@ public class Client_SignUp extends Fragment{
         return i;
 
     }
+
 }

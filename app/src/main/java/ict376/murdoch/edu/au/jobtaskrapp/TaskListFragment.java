@@ -154,8 +154,6 @@ public class TaskListFragment extends Fragment {
 
         }
 
-
-
         @Override
         public int getItemCount() {
             return list.size();
@@ -239,7 +237,6 @@ public class TaskListFragment extends Fragment {
                         } catch (ParseException e1) {
                             e1.printStackTrace();
                         }
-
 
                         TaskDataModel mTaskData = new TaskDataModel(task.getString("Title"), task.getString("Description"),
                                 task.getParseFile("Image"), androidAddress, task.getDate("TaskWhen"),
