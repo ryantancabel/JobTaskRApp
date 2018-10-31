@@ -12,16 +12,18 @@
         android:id="@+id/cardView"
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:paddingTop="?android:attr/actionBarSize"
+        android:paddingBottom="?android:attr/actionBarSize"/>
 
     <Button
         android:id="@+id/addButton"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/cardView"
         android:layout_alignEnd="@+id/cardView"
-        android:layout_marginBottom="67dp"
-        android:text="@string/add_button"
-        android:onClick="pressedNextButton"/>
+        android:paddingBottom="?android:attr/actionBarSize"
+        android:onClick="pressedNextButton"
+        android:text="ADD"/>
 
 </RelativeLayout>

@@ -11,8 +11,8 @@ public class TaskDataModel implements Serializable {
 
     private String taskName;
     private String taskDesc;
-    private ParseFile picture;
-    private Location address;
+    private transient ParseFile picture;
+    private transient Location address;
     private Date dateWhen;
     private Date datePosted;
     private Double taskRate;
