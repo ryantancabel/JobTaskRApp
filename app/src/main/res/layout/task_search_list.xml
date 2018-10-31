@@ -22,7 +22,7 @@
         android:layout_alignBottom="@+id/cardView"
         android:layout_alignEnd="@+id/cardView"
         android:paddingBottom="?android:attr/actionBarSize"
-        android:onClick="pressedNextButton"
-        android:text="ADD"/>
+        android:text="@string/add_button"
+        android:onClick="pressedNextButton"/>
 
 </RelativeLayout>
