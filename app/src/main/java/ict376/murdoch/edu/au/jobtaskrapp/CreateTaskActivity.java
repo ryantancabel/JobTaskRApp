@@ -268,8 +268,12 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
                                 @Override
                                 public void done(ParseException e) {
                                     Toast.makeText(getApplicationContext(), "Success Uploading Image!", Toast.LENGTH_LONG).show();
+
                                 }
+
                             });
+                            tasks.saveInBackground();
+                            Notification();
 
                         } else {
                             //there was an error
@@ -285,8 +289,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
             Toast.makeText(getApplicationContext(), e1.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }
 
-        tasks.saveInBackground();
-        Notification();
+
 
 
     }
@@ -409,7 +412,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
     }
 }
 
-    /* testing for pointers   
+    /* testing for pointers
       if(currentUser != null) {
           //  tasks.put("UserPointer", currentUser.getObjectId());//getParseObject("objectId"));
            // Toast.makeText(this, String.format("Their is " + currentUser.getObjectId()), Toast.LENGTH_SHORT).show();
