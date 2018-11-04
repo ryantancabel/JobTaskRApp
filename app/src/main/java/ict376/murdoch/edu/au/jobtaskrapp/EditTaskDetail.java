@@ -31,6 +31,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class EditTaskDetail extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+
     private TextView taskTitle, description, taskRate;
     private String title, des,rateDuration;
     private int rate;
@@ -39,9 +40,8 @@ public class EditTaskDetail extends AppCompatActivity implements AdapterView.OnI
     private Button uploadpic;
     private static final int CAMERA_REQUEST = 1888;
 
-    //   private Object image;
-    ArrayList<TaskDataModel> dataModelList = new ArrayList<>();
-    String id = "R4vyTBkoW9";
+    TaskDataModel taskObject;
+    String id;
 
 
     //for SpiRRnner
@@ -54,11 +54,19 @@ public class EditTaskDetail extends AppCompatActivity implements AdapterView.OnI
         Parse.initialize(this);
         Intent i = getIntent();
 
+        Bundle extras = i.getExtras();
+        taskObject = (TaskDataModel) getIntent().getSerializableExtra("object");
+        id = taskObject.getObjectID();
 
         taskTitle=(TextView)findViewById(R.id.ed_TaskTitle);
+        taskTitle.setText(taskObject.getTaskName());
         description=(TextView)findViewById(R.id.ed_Description);
+        description.setText(taskObject.getTaskDescp());
         taskRate = (TextView)findViewById(R.id.taskRate);
+        taskRate.setText(String.format("%.0f",taskObject.getTaskRate()));
         taskType = (Spinner)findViewById(R.id.taskType);
+
+        Log.d("nnn", "onCreate: " + id);
 
         //initialise button
         uploadpic = (Button) findViewById(R.id.bt_uploadPicture);
