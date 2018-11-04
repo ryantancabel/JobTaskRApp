@@ -1,40 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.NestedScrollView
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context=".ClientActivity">
 
-    <RelativeLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="?attr/actionBarSize">
+        android:layout_height="wrap_content">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/activeList"
-            android:paddingTop="?attr/actionBarSize"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/deletedList"
-            android:paddingBottom="?attr/actionBarSize"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_below="@+id/activeList"/>
+            android:paddingBottom="?attr/actionBarSize">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:padding="16dp"
-            android:id="@+id/addButton"
-            android:onClick="onButtonPress"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="?attr/actionBarSize"
+                android:text="Current Tasks"
+                android:id="@+id/current"
+                android:textSize="20sp" />
 
-    </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/activeList"
+                android:layout_below="@+id/current"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
 
-</android.support.v4.widget.NestedScrollView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Retired Tasks"
+                android:id="@+id/retired"
+                android:layout_below="@id/activeList"
+                android:textSize="20sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/deletedList"
+                android:paddingBottom="?attr/actionBarSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/retired"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:padding="16dp"
+                android:id="@+id/addButton"
+                android:text="ADD"
+                android:onClick="onButtonPress"/>
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.v4.widget.SwipeRefreshLayout>

@@ -248,7 +248,7 @@ public class TaskListFragment extends Fragment {
                             TaskDataModel mTaskData = new TaskDataModel(task.getString("Title"), task.getString("Description"),
                                     task.getParseFile("Image"), androidAddress, task.getDate("TaskWhen"),
                                     task.getDate("PostedWhen"), task.getDouble("TaskRate"), userName,
-                                    email);
+                                    email, task.getObjectId());
 
                             dataModelList.add(mTaskData);
                     }

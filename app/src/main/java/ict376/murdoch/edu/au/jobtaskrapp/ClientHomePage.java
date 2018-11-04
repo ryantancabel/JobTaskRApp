@@ -1,13 +1,16 @@
 package ict376.murdoch.edu.au.jobtaskrapp;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.internal.ILocationSourceDelegate;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -33,18 +37,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class ClientHomePage extends Fragment {
+public class ClientHomePage extends Fragment implements View.OnClickListener {
 
     View view;
     ArrayList<TaskDataModel> activeList = new ArrayList<>();
     ArrayList<TaskDataModel> inactiveList = new ArrayList<>();
     RecyclerView ActiveRecyclerView, InactiveRecyclerView;
     private static Bundle b;
+    LinearLayoutManager ALayoutManager, ILayoutManager;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    String id = ParseUser.getCurrentUser().getString("objectId");
+
+    private final String KEY_RECYCLER_STATE = "recycler_state";
+    private final String KEY_RECYCLER_STATE2 = "recycler_state";
+    private RecyclerView mRecyclerView;
+    private static Bundle mBundleRecyclerViewState;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
     }
 
@@ -56,48 +67,104 @@ public class ClientHomePage extends Fragment {
 
             view = inflater.inflate(R.layout.fragment_client_activity, container, false);
             Button addButton = (Button) view.findViewById(R.id.addButton);
+            addButton.setOnClickListener(this);
+            mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
 
-            ActiveRecyclerView = (RecyclerView) view.findViewById(R.id.activeList);
-            ActiveAdapter aAdapter = new ActiveAdapter(activeList);
-            ActiveRecyclerView.setHasFixedSize(false);
-            ActiveRecyclerView.setNestedScrollingEnabled(false);
-            LinearLayoutManager ALayoutManager = new LinearLayoutManager(getActivity());
-            ALayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            ActiveRecyclerView.setLayoutManager(ALayoutManager);
-            ActiveRecyclerView.setAdapter(aAdapter);
-            intialiseActiveList();
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    // Refresh items
+                    mSwipeRefreshLayout.setRefreshing(true);
+                    refreshItems();
+                }
+            });
 
-            InactiveRecyclerView = (RecyclerView) view.findViewById(R.id.deletedList);
-            InactiveAdapter iAdapter = new InactiveAdapter(inactiveList);
-            InactiveRecyclerView.setHasFixedSize(false);
-            InactiveRecyclerView.setNestedScrollingEnabled(false);
-            LinearLayoutManager ILayoutManager = new LinearLayoutManager(getActivity());
-            ILayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            InactiveRecyclerView.setLayoutManager(ILayoutManager);
-            InactiveRecyclerView.setAdapter(iAdapter);
-            intialiseInactiveList();
+            refreshingItems();
+
         }
 
         return view;
     }
+
+    public void refreshItems()
+    {
+        activeList.clear();
+        inactiveList.clear();
+
+        refreshingItems();
+
+        onItemsLoadComplete();
+    }
+
+    public void refreshingItems()
+    {
+        intialiseActiveList();
+        intialiseInactiveList();
+
+        ActiveRecyclerView = (RecyclerView) view.findViewById(R.id.activeList);
+        ActiveAdapter aAdapter = new ActiveAdapter(activeList);
+        ActiveRecyclerView.setHasFixedSize(false);
+        ActiveRecyclerView.setNestedScrollingEnabled(false);
+        ALayoutManager = new LinearLayoutManager(getActivity());
+        ALayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        ActiveRecyclerView.setLayoutManager(ALayoutManager);
+        ActiveRecyclerView.setAdapter(aAdapter);
+
+
+        InactiveRecyclerView = (RecyclerView) view.findViewById(R.id.deletedList);
+        InactiveAdapter iAdapter = new InactiveAdapter(inactiveList);
+        InactiveRecyclerView.setHasFixedSize(false);
+        InactiveRecyclerView.setNestedScrollingEnabled(false);
+        ILayoutManager = new LinearLayoutManager(getActivity());
+        ILayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        InactiveRecyclerView.setLayoutManager(ILayoutManager);
+        InactiveRecyclerView.setAdapter(iAdapter);
+    }
+
+    void onItemsLoadComplete() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
 
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+
+        // save RecyclerView state
+        mBundleRecyclerViewState = new Bundle();
+        Parcelable ActiveListState = ActiveRecyclerView.getLayoutManager().onSaveInstanceState();
+        Parcelable InactiveListState = InactiveRecyclerView.getLayoutManager().onSaveInstanceState();
+        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, ActiveListState);
+        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE2, InactiveListState);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        // restore RecyclerView state
+        if (mBundleRecyclerViewState != null) {
+            Parcelable ActiveListState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
+            Parcelable InactiveListState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE2);
+            ActiveRecyclerView.getLayoutManager().onRestoreInstanceState(ActiveListState);
+            InactiveRecyclerView.getLayoutManager().onRestoreInstanceState(InactiveListState);
+        }
+    }
+
     private void intialiseActiveList() {
 
-        ParseUser newUser = new ParseUser();
-        String id = newUser.getObjectId();
-
-        //parse query connect to your table
         ParseQuery<ParseObject> query =  ParseQuery.getQuery("Task");
-
-        query.include("Task.User");
-
         query.whereEqualTo("Active", true);
-        query.whereEqualTo("UserPointer", id);
+        query.whereEqualTo("UserPointer", ParseUser.getCurrentUser());
+
+
         //Sort by created at or can be used updated At column in the parse table
         query.orderByAscending("_created_at");
 
@@ -139,7 +206,7 @@ public class ClientHomePage extends Fragment {
                         TaskDataModel mTaskData = new TaskDataModel(task.getString("Title"), task.getString("Description"),
                                 task.getParseFile("Image"), androidAddress, task.getDate("TaskWhen"),
                                 task.getDate("PostedWhen"), task.getDouble("TaskRate"), userName,
-                                email);
+                                email, task.getObjectId());
 
                         activeList.add(mTaskData);
                     }
@@ -164,16 +231,10 @@ public class ClientHomePage extends Fragment {
 
     private void intialiseInactiveList() {
 
-        ParseUser newUser = new ParseUser();
-        String id = newUser.getObjectId();
-
         //parse query connect to your table
         ParseQuery<ParseObject> query =  ParseQuery.getQuery("Task");
-
-        query.include("Task.User");
-
-        query.whereEqualTo("Active", false);
-        query.whereEqualTo("UserPointer", id);
+        query.whereNotEqualTo("Active",true);
+        query.whereEqualTo("UserPointer", ParseUser.getCurrentUser());
         //Sort by created at or can be used updated At column in the parse table
         query.orderByAscending("_created_at");
 
@@ -215,7 +276,7 @@ public class ClientHomePage extends Fragment {
                         TaskDataModel mTaskData = new TaskDataModel(task.getString("Title"), task.getString("Description"),
                                 task.getParseFile("Image"), androidAddress, task.getDate("TaskWhen"),
                                 task.getDate("PostedWhen"), task.getDouble("TaskRate"), userName,
-                                email);
+                                email, task.getObjectId());
 
                         inactiveList.add(mTaskData);
                     }
@@ -224,7 +285,7 @@ public class ClientHomePage extends Fragment {
                 {
                     Log.d(getClass().getSimpleName(),"Error:" + e.getMessage());
                 }
-                saveActiveList(inactiveList);
+                saveInactiveList(inactiveList);
             }
         });
     }
@@ -236,6 +297,13 @@ public class ClientHomePage extends Fragment {
         if (inactiveList.size() > 0 & InactiveRecyclerView != null) {
             InactiveRecyclerView.setAdapter(new ClientHomePage.InactiveAdapter(inactiveList));
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        Intent intent = new Intent(getActivity(), CreateTaskActivity.class);
+        startActivity(intent);
     }
 
     public class ActiveAdapter extends RecyclerView.Adapter<MyViewHolder> {
@@ -250,13 +318,13 @@ public class ClientHomePage extends Fragment {
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.task_card, parent, false);
+                    .inflate(R.layout.task_card_client_active, parent, false);
             ClientHomePage.MyViewHolder holder = new ClientHomePage.MyViewHolder(view);
             return holder;
         }
 
         @Override
-        public void onBindViewHolder(final ClientHomePage.MyViewHolder holder, int position) {
+        public void onBindViewHolder(final ClientHomePage.MyViewHolder holder, final int position) {
 
             //add Task Name
             holder.titleTextView.setText(activeList.get(position).getTaskName());
@@ -290,30 +358,14 @@ public class ClientHomePage extends Fragment {
             String city = addresses.get(0).getLocality();
             holder.location.setText(city);
 
-            holder.setItemClickListener(new ItemClickListener() {
-                @Override
-                public void onClick(View view, int position, String title) {
 
-                    android.support.v4.app.FragmentManager fm = getFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    TaskDetailFragment tdf = new TaskDetailFragment();
-
-                    Bundle arguments = new Bundle();
-                    arguments.putSerializable("taskObject", activeList.get(position));
-                    tdf.setArguments(arguments);
-
-                    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-
-                        ft.replace(R.id.taskListPlaceholder, tdf, getTag()).addToBackStack(getTag()).commit();
-
-                    } else {
-
-                        ft.replace(R.id.taskDetailPlaceholder, tdf, getTag()).addToBackStack(getTag()).commit();
-
-                    }
+            holder.editButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), EditTaskDetail.class);
+                    intent.putExtra("object", activeList.get(position));
+                    startActivity(intent);
                 }
             });
-
 
         }
 
@@ -335,13 +387,13 @@ public class ClientHomePage extends Fragment {
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.task_card, parent, false);
+                    .inflate(R.layout.task_card_client_active, parent, false);
             ClientHomePage.MyViewHolder holder = new ClientHomePage.MyViewHolder(view);
             return holder;
         }
 
         @Override
-        public void onBindViewHolder(final ClientHomePage.MyViewHolder holder, int position) {
+        public void onBindViewHolder(final ClientHomePage.MyViewHolder holder, final int position) {
 
             //add Task Name
             holder.titleTextView.setText(inactiveList.get(position).getTaskName());
@@ -375,27 +427,26 @@ public class ClientHomePage extends Fragment {
             String city = addresses.get(0).getLocality();
             holder.location.setText(city);
 
-            holder.setItemClickListener(new ItemClickListener() {
-                @Override
-                public void onClick(View view, int position, String title) {
+            holder.editButton.setText("REACTIVATE");
 
-                    android.support.v4.app.FragmentManager fm = getFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    TaskDetailFragment tdf = new TaskDetailFragment();
+            holder.editButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
 
-                    Bundle arguments = new Bundle();
-                    arguments.putSerializable("taskObject", inactiveList.get(position));
-                    tdf.setArguments(arguments);
+                    //update table by id
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+                    query.whereEqualTo("objectId", inactiveList.get(position).getObjectID());
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        public void done(List<ParseObject> list, ParseException e) {
+                            if (e == null) {
+                                ParseObject task = list.get(0);
+                                task.put("Active", true);
+                                task.saveInBackground();
+                            } else {
+                                Log.d("score", "Error: " + e.getMessage());
+                            }
+                        }
+                    });
 
-                    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-
-                        ft.replace(R.id.taskListPlaceholder, tdf, getTag()).addToBackStack(getTag()).commit();
-
-                    } else {
-
-                        ft.replace(R.id.taskDetailPlaceholder, tdf, getTag()).addToBackStack(getTag()).commit();
-
-                    }
                 }
             });
 
@@ -414,7 +465,7 @@ public class ClientHomePage extends Fragment {
         public ImageView itemPhoto;
         public TextView price;
         public TextView location;
-        private ItemClickListener itemClickListener;
+        public Button editButton;
 
         public MyViewHolder(View v) {
             super(v);
@@ -422,20 +473,12 @@ public class ClientHomePage extends Fragment {
             titleTextView = (TextView) v.findViewById(R.id.titleTextView);
             price = (TextView) v.findViewById(R.id.price);
             location = (TextView) v.findViewById(R.id.location);
+            editButton = (Button) v.findViewById(R.id.editButton);
 
-            v.setOnClickListener(this);
-
-        }
-
-        public void setItemClickListener(ItemClickListener itemClickListener)
-        {
-            this.itemClickListener = itemClickListener;
         }
 
         @Override
         public void onClick(View v) {
-
-            itemClickListener.onClick(v, getAdapterPosition(), titleTextView.getText().toString());
 
         }
     }
