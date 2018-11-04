@@ -135,6 +135,24 @@
             android:onClick="Edit_Button_OnClick"
             android:text="@string/edit" />
 
+        <TextView
+            android:id="@+id/Location"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:hint="User Current Location" />
+
+        <TextView
+            android:id="@+id/Deadline"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:hint="Task Deadline" />
+
+        <TextView
+            android:id="@+id/CurrentTimeStamp"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:hint="Task Creation Time Stamp" />
+
 
     </LinearLayout>
 

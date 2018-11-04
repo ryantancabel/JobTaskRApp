@@ -95,7 +95,7 @@ public class Client_SignUp extends Fragment{
                 String Postcode = Postcode1.getText().toString();
                 String Suburb  = Suburb1.getText().toString();
                 String StateName = State1.getSelectedItem().toString();
-
+                String Client ="Client";
 
                 ParseUser user = new ParseUser();
 
@@ -107,6 +107,7 @@ public class Client_SignUp extends Fragment{
                 user.put("Postcode", Postcode);
                 user.put("Suburb",Suburb);
                 user.put("State", StateName);
+                user.put("UserType", Client);
 
 
 

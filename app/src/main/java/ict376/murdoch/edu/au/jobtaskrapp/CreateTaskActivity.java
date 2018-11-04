@@ -46,20 +46,22 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class CreateTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class CreateTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    private TextView LocationView, taskTitle, description, taskRate, deadline, GeoLocation, CurrentTimeStamp;
     //Constant variable for upload image.
     public static final int TAKE_PIC_REQUEST_CODE = 0;
     public static final int CHOOSE_PIC_REQUEST_CODE = 1;
     public static final int MEDIA_TYPE_IMAGE = 2;
 
-    private TextView LocationView, taskTitle, description, taskRate, deadline;
+
     private String title, des, rateDuration;
     private int rate;
     protected Button LocationButton, TaskdeadLineButton;
     private static final int REQUEST_LOCATION = 1;
     private LocationManager locationManager;
 
+    private Date dateTimestamp = Calendar.getInstance().getTime();
     //Image Upload component
     protected Button mAddImageBtn;
     protected Button mUploadImageBtn;
@@ -74,7 +76,9 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
 
     //for Spinner
     private Spinner taskType;
-    ParseObject tasks = new ParseObject("Task");
+    private ParseObject tasks = new ParseObject("Task");
+
+
     //ParseObject imageUpload = new ParseObject("ImageUpload");
 
     @Override
@@ -90,10 +94,16 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
         description = (TextView) findViewById(R.id.ed_Description);
         taskRate = (TextView) findViewById(R.id.taskRate);
         taskType = (Spinner) findViewById(R.id.taskType);
+        deadline = (TextView) findViewById(R.id.Deadline);
+        GeoLocation = (TextView) findViewById(R.id.Location);
+        CurrentTimeStamp = (TextView) findViewById(R.id.CurrentTimeStamp);
+
+
+        CurrentTimeStamp.setText(dateTimestamp.toString());
+
         TaskdeadLineButton = (Button) findViewById(R.id.taskDeadline);
         //initialise the button for image upload
         mAddImageBtn = (Button) findViewById(R.id.btn_add);
-
 
 
         TaskdeadLineButton.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +123,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
         //add listener On Spinner
         addListenerOnSpinnerItemSelection(taskType);
 
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         LocationButton = (Button) findViewById(R.id.location_button);
 
@@ -139,7 +149,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
                         //upload image
                         Intent choosePictureIntent = new Intent(Intent.ACTION_GET_CONTENT);
                         choosePictureIntent.setType("image/*");
-                        startActivityForResult(choosePictureIntent,CHOOSE_PIC_REQUEST_CODE);
+                        startActivityForResult(choosePictureIntent, CHOOSE_PIC_REQUEST_CODE);
                     }
                 });
                 builder.setNegativeButton("Take Photo", new DialogInterface.OnClickListener() {
@@ -148,12 +158,11 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
                         //take photo
                         Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                         mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
-                        if(mMediaUri == null)
-                        {
-                            Toast.makeText(getApplicationContext(),"Sorry there was an error! Try again.",Toast.LENGTH_LONG).show();
-                        }else {
-                            takePicture.putExtra(MediaStore.EXTRA_OUTPUT,mMediaUri);
-                            startActivityForResult(takePicture,TAKE_PIC_REQUEST_CODE);
+                        if (mMediaUri == null) {
+                            Toast.makeText(getApplicationContext(), "Sorry there was an error! Try again.", Toast.LENGTH_LONG).show();
+                        } else {
+                            takePicture.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+                            startActivityForResult(takePicture, TAKE_PIC_REQUEST_CODE);
                         }
                     }
                 });
@@ -163,115 +172,128 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
         });
 
 
+    }
 
+    public void myMapLocation() {
+
+        // requesting permission to get user's location
+        if (ActivityCompat.checkSelfPermission(CreateTaskActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(CreateTaskActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(CreateTaskActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_LOCATION);
+        } else {
+
+            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+
+            if (location != null) {
+                // if it isn't, save it to Back4App Dashboard
+                ParseGeoPoint currentUserLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
+                tasks.put("Location", currentUserLocation);
+                GeoLocation.setText(currentUserLocation.toString());
+            } else {
+                Toast.makeText(this, String.format("Location is Null"), Toast.LENGTH_SHORT).show();
+            }
         }
-
-    public void myMapLocation(){
-
-            // requesting permission to get user's location
-            if(ActivityCompat.checkSelfPermission(CreateTaskActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                    PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(CreateTaskActivity.this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(CreateTaskActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                        REQUEST_LOCATION);
-            }
-            else {
-
-                Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-
-                if(location != null){
-                    // if it isn't, save it to Back4App Dashboard
-                    ParseGeoPoint currentUserLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
-                    tasks.put("Location", currentUserLocation);
-                }
-                else {
-                    Toast.makeText(this, String.format("Location is Null"), Toast.LENGTH_SHORT).show();
-                }
-            }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_LOCATION:
                 myMapLocation();
                 break;
         }
     }
 
-    public void addListenerOnSpinnerItemSelection(View view)
-    {
+    public void addListenerOnSpinnerItemSelection(View view) {
         taskType = (Spinner) view.findViewById(R.id.taskType);
         taskType.setOnItemSelectedListener(new CustomOnItemSelectedListener());
     }
 
 
-    public void SaveButton_OnClick(View view)
-    {
+    public void SaveButton_OnClick(View view) {
 
-        if(taskTitle.getText() != null) {
+        if (taskTitle.getText() != null) {
             title = taskTitle.getText().toString();
-            des =description.getText().toString();
-            rate = Integer.valueOf( taskRate.getText().toString());
+            des = description.getText().toString();
+            rate = Integer.valueOf(taskRate.getText().toString());
             rateDuration = taskType.getSelectedItem().toString();
 
         }
 
-        tasks.put("Title",title);
-        tasks.put("Description",des);
-        tasks.put("TaskRate",rate);
+
+        tasks.put("Title", title);
+        tasks.put("Description", des);
+        tasks.put("TaskRate", rate);
         tasks.put("RateDuration", rateDuration);
-        Date dateTimestamp = Calendar.getInstance().getTime();
-        tasks.put("PostedWhen",dateTimestamp);
+        tasks.put("PostedWhen", dateTimestamp);
 
-        // String currentUser = ParseUser.getCurrentUser().getObjectId();
 
+        //    ParseObject currentUser = ParseUser.getCurrentUser();
+        //  tasks.put("UserPointer", ParseObject.createWithoutData("User", currentUser.getObjectId()));
+
+
+//This two below lines execute no error but cant input data in the parse table
+//        ParseUser currentUser = ParseUser.getCurrentUser();
+        //      tasks.put("UserPointer", ParseObject.createWithoutData("User", "fV78vHAwtB"));
+
+
+     //   ParseUser currentUser = ParseUser.getCurrentUser();
         //tasks.put("UserPointer", ParseUser.getCurrentUser().getObjectId());
-        try{
+        try {
             //Convert image to bytes for upload.
             byte[] fileBytes = FileHelper.getByteArrayFromFile(CreateTaskActivity.this, mMediaUri);
-            if(fileBytes == null){
+            if (fileBytes == null) {
                 //there was an error
-                Toast.makeText(getApplicationContext(), "There was an error, Try again!" , Toast.LENGTH_LONG).show();
-            }else {
+                Toast.makeText(getApplicationContext(), "There was an error, Try again!", Toast.LENGTH_LONG).show();
+            } else {
                 fileBytes = FileHelper.reduceImageForUpload(fileBytes);
-                String fileName = FileHelper.getFileName(CreateTaskActivity.this,mMediaUri,"image");
+                String fileName = FileHelper.getFileName(CreateTaskActivity.this, mMediaUri, "image");
                 final ParseFile file = new ParseFile(fileName, fileBytes);
                 tasks.saveEventually(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        if(e == null){
+                        if (e == null) {
 
-                            tasks.put("Image",file);
+
+                            //  tasks.saveInBackground();
+                            //      updateObject();
+                            // Notification();
+                            tasks.put("Image", file);
                             tasks.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
-                                    Toast.makeText(getApplicationContext(),"Success Uploading Image!",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Success Uploading Image!", Toast.LENGTH_LONG).show();
+
                                 }
+
                             });
                             tasks.saveInBackground();
                             Notification();
-                        }else {
+
+                        } else {
                             //there was an error
-                            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+
                         }
+
                     }
                 });
             }
-        }catch (Exception e1){
+        } catch (Exception e1) {
             //the exception error will throw here.
-            Toast.makeText(getApplicationContext(),e1.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), e1.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }
 
 
 
-     /*
-        Intent FeedPage= new Intent(CreateTaskActivity.this, SidePanelActivity.class);
-        startActivity(FeedPage); */
+
     }
+
     public void Edit_Button_OnClick(View view) {
         Intent i = new Intent(CreateTaskActivity.this, EditTaskDetail.class);
 
@@ -279,7 +301,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
     }
 
     @Override
-    public void onDateSet(DatePicker datePicker, int year2, int month2, int day2 ) {
+    public void onDateSet(DatePicker datePicker, int year2, int month2, int day2) {
         finalday = day2;
         finalmonth = month2;
         finalyear = year2;
@@ -293,39 +315,41 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
         deadlineDate.setDate(finalday);
         deadlineDate.setMonth(finalmonth);
         deadlineDate.setYear(finalyear);
-        tasks.put("TaskWhen",deadlineDate);
+        tasks.put("TaskWhen", deadlineDate);
+        deadline.setText(deadlineDate.toString());
 
     }
 
 
-    public void Notification(){
+    public void Notification() {
 
         NotificationCompat.Builder notificationBuilder;
         notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(CreateTaskActivity.this).setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setSmallIcon(R.drawable.ic_menu_share)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_menu_share))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_menu_share))
                 .setContentTitle("Notification: JobTasker")
                 .setContentText("Your Job has been posted, someone will contact you for the job soon!");
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1,notificationBuilder.build());
+        notificationManager.notify(1, notificationBuilder.build());
 
     }
 
-    //inner helper method
-    private Uri getOutputMediaFileUri(int mediaTypeImage)
-    {
-        if(isExternalStorageAvailable())
-        {
+
+    /*    public void updateObject(){
+
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            tasks.put("UserPointer", ParseObject.createWithoutData("User", currentUser.getObjectId()));
+      */  //inner helper method
+    private Uri getOutputMediaFileUri(int mediaTypeImage) {
+        if (isExternalStorageAvailable()) {
             //get the URI
             //get external storage dir
             File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "UPLOADIMAGES");
             //create subirectory if it does not exit
-            if(!mediaStorageDir.exists())
-            {
+            if (!mediaStorageDir.exists()) {
                 //create dir
-                if(! mediaStorageDir.mkdirs())
-                {
+                if (!mediaStorageDir.mkdirs()) {
                     // Log.e("SNAP59ERROR","Failed to create directory");
                     return null;
                 }
@@ -337,26 +361,25 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
             String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(now);
 
             String path = mediaStorageDir.getPath() + File.separator;
-            if(mediaTypeImage == MEDIA_TYPE_IMAGE)
-            {
+            if (mediaTypeImage == MEDIA_TYPE_IMAGE) {
                 mediaFile = new File(path + "IMG" + timestamp + ".jpg");
             }
             //return file uri
-            Log.d("UPLOADIMAGE", "FILE: "+Uri.fromFile(mediaFile));
+            Log.d("UPLOADIMAGE", "FILE: " + Uri.fromFile(mediaFile));
 
             return Uri.fromFile(mediaFile);
-        }else {
+        } else {
             return null;
         }
     }
 
 
-    private boolean isExternalStorageAvailable(){
+    private boolean isExternalStorageAvailable() {
         String state = Environment.getExternalStorageState();
-        if(state.equals(Environment.MEDIA_MOUNTED)){
+        if (state.equals(Environment.MEDIA_MOUNTED)) {
             return true;
 
-        }else {
+        } else {
             return false;
         }
     }
@@ -365,17 +388,17 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
-            if(requestCode == CHOOSE_PIC_REQUEST_CODE){
-                if(data == null){
-                    Toast.makeText(getApplicationContext(),"Image cannot be null", Toast.LENGTH_LONG).show();
+        if (resultCode == RESULT_OK) {
+            if (requestCode == CHOOSE_PIC_REQUEST_CODE) {
+                if (data == null) {
+                    Toast.makeText(getApplicationContext(), "Image cannot be null", Toast.LENGTH_LONG).show();
 
-                }else {
+                } else {
                     mMediaUri = data.getData();
                     //set previews
                     //mPreviewImageView.setImageURI(mMediaUri);
                 }
-            }else {
+            } else {
 
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 mediaScanIntent.setData(mMediaUri);
@@ -383,10 +406,25 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
                 //set previews
                 //mPreviewImageView.setImageURI(mMediaUri);
             }
-        }else if(resultCode != RESULT_CANCELED){
-            Toast.makeText(getApplicationContext(),"Cancelled!",Toast.LENGTH_LONG).show();
+        } else if (resultCode != RESULT_CANCELED) {
+            Toast.makeText(getApplicationContext(), "Cancelled!", Toast.LENGTH_LONG).show();
         }
     }
-
-
 }
+
+    /* testing for pointers
+      if(currentUser != null) {
+          //  tasks.put("UserPointer", currentUser.getObjectId());//getParseObject("objectId"));
+           // Toast.makeText(this, String.format("Their is " + currentUser.getObjectId()), Toast.LENGTH_SHORT).show();
+
+            tasks.put("UserPointer", ParseObject.createWithoutData("User", currentUser.getObjectId()));
+
+            tasks.saveInBackground();
+        }else{
+            Toast.makeText(this, String.format("Their is no current user"), Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+*/
+
