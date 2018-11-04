@@ -206,13 +206,25 @@ public class SidePanelActivity extends AppCompatActivity implements NavigationVi
                 switch (item.getItemId()) {
 
                     case R.id.navigation_home:
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        // Fragment currentFragment = getApplicationContext().getFragmentManager().findFragmentById(R.id.fragment_container);
-                        tkfg = new TaskListFragment();
-                        ft.replace(R.id.taskListPlaceholder, tkfg);
-                        ft.commit();
-                        flag = true;
-                        break;
+
+                        FragmentManager fm = getSupportFragmentManager();
+                        Fragment fragment = fm.findFragmentById(R.id.taskListPlaceholder);
+
+                        ParseUser user = ParseUser.getCurrentUser();
+                        String x = user.getString("UserType");
+
+                        if(x.equals("Client")) {
+                            if (fragment == null) {
+                                fragment = new ClientHomePage();
+                                fm.beginTransaction().add(R.id.taskListPlaceholder, fragment).commit();
+                            }
+                        }
+                        else if(x.equals("Tech")) {
+                            if (fragment == null) {
+                                fragment = new TaskListFragment();
+                                fm.beginTransaction().add(R.id.taskListPlaceholder, fragment).commit();
+                            }
+                        }
                     case R.id.navigation_complete:
                         FragmentTransaction fx = getSupportFragmentManager().beginTransaction();
                         helpfg = new HelpFragment();
