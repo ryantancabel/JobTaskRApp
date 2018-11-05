@@ -60,8 +60,6 @@ public class LoginFragment extends Fragment {
                 String usedID = username2.getText().toString();
                 String passwordLg = password2.getText().toString();
 
-
-
                 ParseUser.logInInBackground(usedID, passwordLg, new LogInCallback() {
                     @Override
                     public void done(ParseUser parseUser, ParseException e) {
