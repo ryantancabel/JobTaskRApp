@@ -69,7 +69,7 @@ public class TaskDetailFragment extends Fragment {
             Picasso
                     .get()
                     .load(imageUrl)
-                    .resize(0, profilePic.getHeight())
+                    .fit()
                     .into(taskImage);
         }
 

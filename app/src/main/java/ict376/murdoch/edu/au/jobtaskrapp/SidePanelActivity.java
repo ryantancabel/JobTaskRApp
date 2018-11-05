@@ -208,23 +208,23 @@ public class SidePanelActivity extends AppCompatActivity implements NavigationVi
                     case R.id.navigation_home:
 
                         FragmentManager fm = getSupportFragmentManager();
-                        Fragment fragment = fm.findFragmentById(R.id.taskListPlaceholder);
+                        FragmentTransaction ft = fm.beginTransaction();
 
                         ParseUser user = ParseUser.getCurrentUser();
                         String x = user.getString("UserType");
 
                         if(x.equals("Client")) {
-                            if (fragment == null) {
-                                fragment = new ClientHomePage();
-                                fm.beginTransaction().add(R.id.taskListPlaceholder, fragment).commit();
-                            }
+                            ft.replace(R.id.taskListPlaceholder, new ClientHomePage());
+                            ft.addToBackStack(null);
+                            ft.commit();
                         }
                         else if(x.equals("Tech")) {
-                            if (fragment == null) {
-                                fragment = new TaskListFragment();
-                                fm.beginTransaction().add(R.id.taskListPlaceholder, fragment).commit();
+                            ft.replace(R.id.taskListPlaceholder, new TaskListFragment());
+                            ft.addToBackStack(null);
+                            ft.commit();
                             }
-                        }
+                        break;
+
                     case R.id.navigation_complete:
                         FragmentTransaction fx = getSupportFragmentManager().beginTransaction();
                         helpfg = new HelpFragment();
