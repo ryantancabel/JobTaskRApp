@@ -16,7 +16,6 @@ public class TaskSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent i = getIntent();
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             setContentView(R.layout.activity_task_search);
 
             FragmentManager fm = getSupportFragmentManager();
@@ -30,24 +29,6 @@ public class TaskSearchActivity extends AppCompatActivity {
             }
 
         }
-
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setContentView(R.layout.activity_task_search_landscape);
-
-            FragmentManager fm = getSupportFragmentManager();
-            Fragment Listfragment = fm.findFragmentById(R.id.taskListPlaceholder);
-            Fragment Detailfragment = fm.findFragmentById(R.id.taskDetailPlaceholder);
-
-            if (Listfragment == null) {
-                Listfragment = new TaskListFragment();
-                fm.beginTransaction()
-                        .add(R.id.taskListPlaceholder, Listfragment)
-                        .commit();
-            }
-
-        }
-    }
-
 
     public void pressedNextButton(View view) {
 

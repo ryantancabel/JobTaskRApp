@@ -76,7 +76,7 @@ public class TaskDetailFragment extends Fragment {
             Picasso
                     .get()
                     .load(imageUrl)
-                    .resize(250,250)
+                    .resize(0, profilePic.getHeight())
                     .into(taskImage);
         }
 
@@ -141,6 +141,8 @@ public class TaskDetailFragment extends Fragment {
         Intent mapCall  = new Intent(Intent.ACTION_VIEW, geoUri);
         startActivity(mapCall);
     }
+
+
 
 
 }

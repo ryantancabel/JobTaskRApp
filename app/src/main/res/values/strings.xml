@@ -57,6 +57,8 @@
     //for Task Searching and Viewing
     <string name="add_button">ADD</string>
     <string name="email_client_button">EMAIL</string>
+    <string name="edit_button">EDIT</string>
+    <string name="navigate_button">NAVIGATE</string>
 
 
     <!-- Strings related to SignUp form -->

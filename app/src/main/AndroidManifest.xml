@@ -15,33 +15,47 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" >
+
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateTaskActivity" />
-        <activity android:name=".TaskSearchActivity">
+
+        <activity android:name=".CreateTaskActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".TaskSearchActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SENDTO" />
                 <data android:scheme="mailto" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <data android:scheme="geo" />
+                <category android:name="android.intent.category.APP_MAPS" />
+            </intent-filter>
         </activity>
-        <activity android:name=".EditTaskDetail" />
 
-        <!-- Combine code 27/10 -->
+        <activity android:name=".EditTaskDetail"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".SidePanelActivity"
             android:label="@string/title_activity_side_panel"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <!-- end -->
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.parse.SERVER_URL"
