@@ -225,6 +225,7 @@ public class SidePanelActivity extends AppCompatActivity implements NavigationVi
                                 fm.beginTransaction().add(R.id.taskListPlaceholder, fragment).commit();
                             }
                         }
+                        break;
                     case R.id.navigation_complete:
                         FragmentTransaction fx = getSupportFragmentManager().beginTransaction();
                         helpfg = new HelpFragment();

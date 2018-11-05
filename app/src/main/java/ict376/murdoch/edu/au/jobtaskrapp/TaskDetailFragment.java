@@ -16,7 +16,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.Parse;
+import com.parse.ParseClassName;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -55,6 +60,8 @@ public class TaskDetailFragment extends Fragment {
         TextView price = (TextView) view.findViewById(R.id.price);
         TextView location = (TextView) view.findViewById(R.id.location);
         TextView description = (TextView) view.findViewById(R.id.description);
+
+        Button acceptJob = (Button)view.findViewById(R.id.btn_accept);
 
         Bundle b = getArguments();
         task = (TaskDataModel) b.getSerializable("taskObject");
@@ -134,5 +141,6 @@ public class TaskDetailFragment extends Fragment {
         Intent mapCall  = new Intent(Intent.ACTION_VIEW, geoUri);
         startActivity(mapCall);
     }
+
 
 }

@@ -231,19 +231,8 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
         tasks.put("TaskRate", rate);
         tasks.put("RateDuration", rateDuration);
         tasks.put("PostedWhen", dateTimestamp);
+        tasks.put("UserPointer", ParseUser.getCurrentUser());
 
-
-        //    ParseObject currentUser = ParseUser.getCurrentUser();
-        //  tasks.put("UserPointer", ParseObject.createWithoutData("User", currentUser.getObjectId()));
-
-
-//This two below lines execute no error but cant input data in the parse table
-//        ParseUser currentUser = ParseUser.getCurrentUser();
-        //      tasks.put("UserPointer", ParseObject.createWithoutData("User", "fV78vHAwtB"));
-
-
-     //   ParseUser currentUser = ParseUser.getCurrentUser();
-        //tasks.put("UserPointer", ParseUser.getCurrentUser().getObjectId());
         try {
             //Convert image to bytes for upload.
             byte[] fileBytes = FileHelper.getByteArrayFromFile(CreateTaskActivity.this, mMediaUri);
@@ -340,7 +329,9 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
 
             ParseUser currentUser = ParseUser.getCurrentUser();
             tasks.put("UserPointer", ParseObject.createWithoutData("User", currentUser.getObjectId()));
-      */  //inner helper method
+      */
+
+    //inner helper method
     private Uri getOutputMediaFileUri(int mediaTypeImage) {
         if (isExternalStorageAvailable()) {
             //get the URI
@@ -411,20 +402,4 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
         }
     }
 }
-
-    /* testing for pointers
-      if(currentUser != null) {
-          //  tasks.put("UserPointer", currentUser.getObjectId());//getParseObject("objectId"));
-           // Toast.makeText(this, String.format("Their is " + currentUser.getObjectId()), Toast.LENGTH_SHORT).show();
-
-            tasks.put("UserPointer", ParseObject.createWithoutData("User", currentUser.getObjectId()));
-
-            tasks.saveInBackground();
-        }else{
-            Toast.makeText(this, String.format("Their is no current user"), Toast.LENGTH_SHORT).show();
-
-        }
-
-    }
-*/
 
