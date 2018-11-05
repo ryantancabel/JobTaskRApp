@@ -43,14 +43,12 @@ public class ClientHomePage extends Fragment implements View.OnClickListener {
     ArrayList<TaskDataModel> activeList = new ArrayList<>();
     ArrayList<TaskDataModel> inactiveList = new ArrayList<>();
     RecyclerView ActiveRecyclerView, InactiveRecyclerView;
-    private static Bundle b;
     LinearLayoutManager ALayoutManager, ILayoutManager;
     SwipeRefreshLayout mSwipeRefreshLayout;
     String id = ParseUser.getCurrentUser().getString("objectId");
 
     private final String KEY_RECYCLER_STATE = "recycler_state";
     private final String KEY_RECYCLER_STATE2 = "recycler_state";
-    private RecyclerView mRecyclerView;
     private static Bundle mBundleRecyclerViewState;
 
     @Override
@@ -340,7 +338,7 @@ public class ClientHomePage extends Fragment implements View.OnClickListener {
                 Picasso
                         .get()
                         .load(imageUrl)
-                        .resize(100, 100)
+                        .fit()
                         .into(holder.itemPhoto);
             }
 
@@ -409,7 +407,7 @@ public class ClientHomePage extends Fragment implements View.OnClickListener {
                 Picasso
                         .get()
                         .load(imageUrl)
-                        .resize(100, 100)
+                        .fit()
                         .into(holder.itemPhoto);
             }
 
