@@ -212,8 +212,9 @@ public class TaskListFragment extends Fragment {
         ParseQuery<ParseObject> query =  ParseQuery.getQuery("Task");
 
         query.include("Task.User");
+        query.setLimit(8);
         //Sort by created at or can be used updated At column in the parse table
-        query.orderByAscending("_created_at");
+        query.orderByDescending("_created_at");
 
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
