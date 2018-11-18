@@ -59,7 +59,6 @@
     <string name="email_client_button">EMAIL</string>
     <string name="edit_button">EDIT</string>
     <string name="navigate_button">NAVIGATE</string>
-    <string name="accept">NAVIGATE</string>
 
 
     <!-- Strings related to SignUp form -->

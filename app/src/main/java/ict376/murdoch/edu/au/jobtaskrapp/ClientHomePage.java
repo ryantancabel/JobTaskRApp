@@ -424,7 +424,7 @@ public class ClientHomePage extends Fragment implements View.OnClickListener {
             String city = addresses.get(0).getLocality();
             holder.location.setText(city);
 
-            holder.editButton.setText("REACTIVATE");
+            holder.editButton.setText("ACTIVATE");
 
             holder.editButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
