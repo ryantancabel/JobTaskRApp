@@ -213,6 +213,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/signUpbtn"
                 app:layout_constraintVertical_bias="0.0" />
 
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="400px"
+                android:text="  "
+                />
+
         </LinearLayout>
 
     </ScrollView>
