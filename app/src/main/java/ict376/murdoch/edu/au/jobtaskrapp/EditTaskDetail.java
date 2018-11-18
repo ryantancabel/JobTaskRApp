@@ -52,11 +52,11 @@ public class EditTaskDetail extends AppCompatActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task_detail);
         Parse.initialize(this);
+
         Intent i = getIntent();
 
-        Bundle extras = i.getExtras();
-        taskObject = (TaskDataModel) getIntent().getSerializableExtra("object");
-        id = taskObject.getObjectID();
+        Bundle data = i.getExtras();
+        taskObject = i.getParcelableExtra("object");
 
         taskTitle=(TextView)findViewById(R.id.ed_TaskTitle);
         taskTitle.setText(taskObject.getTaskName());

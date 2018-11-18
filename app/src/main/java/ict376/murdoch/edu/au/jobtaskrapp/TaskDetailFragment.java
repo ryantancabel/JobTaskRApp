@@ -61,10 +61,8 @@ public class TaskDetailFragment extends Fragment {
         TextView location = (TextView) view.findViewById(R.id.location);
         TextView description = (TextView) view.findViewById(R.id.description);
 
-        Button acceptJob = (Button)view.findViewById(R.id.btn_accept);
-
         Bundle b = getArguments();
-        task = (TaskDataModel) b.getSerializable("taskObject");
+        task = (TaskDataModel) b.getParcelable("taskObject");
 
         Log.d(TAG, "onCreateView: " + task.getEmailAddress());
 
@@ -120,8 +118,8 @@ public class TaskDetailFragment extends Fragment {
     public void createEmail() {
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto: "));
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"ryantancabel@hotmail.com"} );
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {task.getEmailAddress()} );
         intent.putExtra(Intent.EXTRA_SUBJECT, "I'm here to help!");
         intent.putExtra(Intent.EXTRA_TEXT, "Hi " + task.getClientName() + " !");
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {

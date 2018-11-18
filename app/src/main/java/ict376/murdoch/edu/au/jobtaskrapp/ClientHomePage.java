@@ -48,11 +48,7 @@ public class ClientHomePage extends Fragment implements View.OnClickListener {
     SwipeRefreshLayout mSwipeRefreshLayout;
     String id = ParseUser.getCurrentUser().getString("objectId");
 
-    private final String KEY_RECYCLER_STATE = "recycler_state";
-    private final String KEY_RECYCLER_STATE2 = "recycler_state";
     private static Bundle mBundle;
-    private ArrayList<Parcelable> ActiveListState;
-    private ArrayList<Parcelable> InactiveListState;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -361,8 +357,9 @@ public class ClientHomePage extends Fragment implements View.OnClickListener {
 
             holder.editButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+
                     Intent intent = new Intent(getActivity(), EditTaskDetail.class);
-                    intent.putExtra("object", (Parcelable) activeList.get(position));
+                    intent.putExtra("object", activeList.get(position));
                     startActivity(intent);
                 }
             });

@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -40,7 +42,7 @@ public class TaskListFragment extends Fragment {
     View view;
     ArrayList<TaskDataModel> dataModelList = new ArrayList<>();
     RecyclerView MyRecyclerView;
-    private static Bundle b;
+    private static Bundle mBundle;
 
 
 
@@ -50,8 +52,6 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Available Tasks");
-        initializeList();
     }
 
     @Override
@@ -60,14 +60,29 @@ public class TaskListFragment extends Fragment {
 
         if(view==null){
 
-        view = inflater.inflate(R.layout.task_search_list, container, false);
-        Button addButton = (Button) view.findViewById(R.id.addButton);
+            view = inflater.inflate(R.layout.task_search_list, container, false);
 
-        MyRecyclerView = (RecyclerView) view.findViewById(R.id.cardView);
-        MyRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager MyLayoutManager = new LinearLayoutManager(getActivity());
-        MyLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        MyRecyclerView.setLayoutManager(MyLayoutManager);
+            if(savedInstanceState != null)
+            {
+                dataModelList = savedInstanceState.getParcelableArrayList("list");
+            }
+            else {
+                initializeList();
+            }
+
+            MyRecyclerView = (RecyclerView) view.findViewById(R.id.cardView);
+            MyRecyclerView.setHasFixedSize(true);
+            if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                LinearLayoutManager MyLayoutManager = new LinearLayoutManager(getActivity());
+                MyLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                MyRecyclerView.setLayoutManager(MyLayoutManager);
+            }
+            else {
+                GridLayoutManager MyLayoutManager = new GridLayoutManager(getActivity(), 2);
+                MyLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+                MyRecyclerView.setLayoutManager(MyLayoutManager);
+            }
+
         }
 
         return view;
@@ -140,26 +155,16 @@ public class TaskListFragment extends Fragment {
                     TaskDetailFragment tdf = new TaskDetailFragment();
 
                     Bundle arguments = new Bundle();
-                    arguments.putSerializable("taskObject", dataModelList.get(position));
+                    arguments.putParcelable("taskObject", dataModelList.get(position));
                     tdf.setArguments(arguments);
 
-                    if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                    ft.replace(R.id.taskListPlaceholder, tdf, getTag()).addToBackStack(getTag()).commit();
 
-                        ft.replace(R.id.taskListPlaceholder, tdf, getTag()).addToBackStack(getTag()).commit();
 
-                    }
-                    else {
-
-                        ft.add(R.id.taskDetailPlaceholder, tdf, getTag()).addToBackStack(getTag()).commit();
-
-                    }
                 }
             });
 
-
         }
-
-
 
         @Override
         public int getItemCount() {
@@ -272,7 +277,28 @@ public class TaskListFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onPause()
+    {
+        super.onPause();
 
+        // save RecyclerView state
+        mBundle = new Bundle();
+        mBundle.putParcelableArrayList("list", dataModelList);
+        super.onSaveInstanceState(mBundle);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mBundle != null) {
+            dataModelList = mBundle.getParcelableArrayList("list");
+            saveList(dataModelList);
+
+        }
+    }
 
 
 }

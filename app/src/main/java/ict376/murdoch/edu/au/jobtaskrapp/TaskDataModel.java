@@ -7,10 +7,9 @@ import android.os.Parcelable;
 
 import com.parse.ParseFile;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class TaskDataModel implements Serializable, Parcelable {
+public class TaskDataModel implements Parcelable {
 
     private String taskName;
     private String taskDesc;
@@ -44,6 +43,22 @@ public class TaskDataModel implements Serializable, Parcelable {
         setObjectID(objectID);
 
     }
+
+    public TaskDataModel(Parcel in) {
+
+        taskName = in.readString();
+        taskDesc = in.readString();
+        picture = ParseFile.CREATOR.createFromParcel(in);
+        address = in.readParcelable(Location.class.getClassLoader());
+        dateWhen = new Date(in.readLong());
+        datePosted = new Date(in.readLong());
+        taskRate = in.readDouble();
+        clientName = in.readString();
+        emailAddress = in.readString();
+        objectID = in.readString();
+
+    }
+
 
     public void setTaskName(String taskName) {
         this.taskName = taskName;
@@ -132,7 +147,7 @@ public class TaskDataModel implements Serializable, Parcelable {
 
     public static final Parcelable.Creator<TaskDataModel> CREATOR = new Parcelable.Creator<TaskDataModel>() {
         public TaskDataModel createFromParcel(Parcel in) {
-            return new TaskDataModel();
+            return new TaskDataModel(in);
         }
 
         public TaskDataModel[] newArray(int size) {
