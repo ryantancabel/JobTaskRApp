@@ -2,12 +2,15 @@ package ict376.murdoch.edu.au.jobtaskrapp;
 
 
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.parse.ParseFile;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class TaskDataModel implements Serializable {
+public class TaskDataModel implements Serializable, Parcelable {
 
     private String taskName;
     private String taskDesc;
@@ -106,4 +109,34 @@ public class TaskDataModel implements Serializable {
         return this.getTaskName();
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(taskName);
+        dest.writeString(taskDesc);
+        dest.writeParcelable(picture, 0);
+        dest.writeParcelable(address, 0);
+        dest.writeString(datePosted.toString());
+        dest.writeString(dateWhen.toString());
+        dest.writeDouble(taskRate);
+        dest.writeString(clientName);
+        dest.writeString(emailAddress);
+        dest.writeString(objectID);
+
+    }
+
+    public static final Parcelable.Creator<TaskDataModel> CREATOR = new Parcelable.Creator<TaskDataModel>() {
+        public TaskDataModel createFromParcel(Parcel in) {
+            return new TaskDataModel();
+        }
+
+        public TaskDataModel[] newArray(int size) {
+            return new TaskDataModel[size];
+        }
+    };
 }

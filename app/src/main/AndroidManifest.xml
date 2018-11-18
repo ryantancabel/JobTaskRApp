@@ -16,8 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,8 +24,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CreateTaskActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".CreateTaskActivity"/>
 
         <activity android:name=".TaskSearchActivity"
             android:screenOrientation="portrait">
@@ -42,20 +40,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".EditTaskDetail"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".EditTaskDetail" />
 
         <activity
             android:name=".SidePanelActivity"
             android:label="@string/title_activity_side_panel"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="com.parse.SERVER_URL"

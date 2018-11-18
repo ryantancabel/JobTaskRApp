@@ -2,7 +2,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
@@ -15,14 +14,5 @@
         android:paddingTop="?android:attr/actionBarSize"
         android:paddingBottom="?android:attr/actionBarSize"/>
 
-    <Button
-        android:id="@+id/addButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/cardView"
-        android:layout_alignEnd="@+id/cardView"
-        android:paddingBottom="?android:attr/actionBarSize"
-        android:text="@string/add_button"
-        android:onClick="pressedNextButton"/>
 
 </RelativeLayout>

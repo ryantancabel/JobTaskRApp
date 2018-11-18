@@ -12,7 +12,7 @@
 
         <ImageView
             android:id="@+id/task_image"
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="250dp"
             android:contentDescription="@null"
             />
@@ -42,8 +42,7 @@
                 android:id="@+id/btn_accept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Accept Job" />
+                android:text="@string/accept" />
 
         </LinearLayout>
 
@@ -99,18 +98,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/description"
             android:layout_below="@+id/client_info_layout"/>
-       <!--
-        <Button
-            android:id="@+id/bt_notification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/client_info_layout"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="51dp"
-            android:layout_marginBottom="8dp"
-            android:onClick="Notification_OnClick"
-            android:text="@string/notification" />
-<-->
 
     </RelativeLayout>
 

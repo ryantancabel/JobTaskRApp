@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -49,7 +50,9 @@ public class ClientHomePage extends Fragment implements View.OnClickListener {
 
     private final String KEY_RECYCLER_STATE = "recycler_state";
     private final String KEY_RECYCLER_STATE2 = "recycler_state";
-    private static Bundle mBundleRecyclerViewState;
+    private static Bundle mBundle;
+    private ArrayList<Parcelable> ActiveListState;
+    private ArrayList<Parcelable> InactiveListState;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,8 +69,9 @@ public class ClientHomePage extends Fragment implements View.OnClickListener {
             view = inflater.inflate(R.layout.fragment_client_activity, container, false);
             Button addButton = (Button) view.findViewById(R.id.addButton);
             addButton.setOnClickListener(this);
-            mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
 
+            mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+            mSwipeRefreshLayout.setDistanceToTriggerSync(200);
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
@@ -77,7 +81,15 @@ public class ClientHomePage extends Fragment implements View.OnClickListener {
                 }
             });
 
-            refreshingItems();
+            if(savedInstanceState != null)
+            {
+                activeList = savedInstanceState.getParcelableArrayList("act");
+                inactiveList = savedInstanceState.getParcelableArrayList("inact");
+                refreshingItems();
+            }
+            else {
+                refreshItems();
+            }
 
         }
 
@@ -89,23 +101,29 @@ public class ClientHomePage extends Fragment implements View.OnClickListener {
         activeList.clear();
         inactiveList.clear();
 
-        refreshingItems();
+        intialiseActiveList();
+        intialiseInactiveList();
 
-        onItemsLoadComplete();
+        refreshingItems();
     }
 
     public void refreshingItems()
     {
-        intialiseActiveList();
-        intialiseInactiveList();
 
         ActiveRecyclerView = (RecyclerView) view.findViewById(R.id.activeList);
         ActiveAdapter aAdapter = new ActiveAdapter(activeList);
         ActiveRecyclerView.setHasFixedSize(false);
         ActiveRecyclerView.setNestedScrollingEnabled(false);
-        ALayoutManager = new LinearLayoutManager(getActivity());
-        ALayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        ActiveRecyclerView.setLayoutManager(ALayoutManager);
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            ALayoutManager = new LinearLayoutManager(getActivity());
+            ALayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            ActiveRecyclerView.setLayoutManager(ALayoutManager);
+        }
+        else {
+            ALayoutManager = new GridLayoutManager(getActivity(), 2);
+            ALayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+            ActiveRecyclerView.setLayoutManager(ALayoutManager);
+        }
         ActiveRecyclerView.setAdapter(aAdapter);
 
 
@@ -113,10 +131,19 @@ public class ClientHomePage extends Fragment implements View.OnClickListener {
         InactiveAdapter iAdapter = new InactiveAdapter(inactiveList);
         InactiveRecyclerView.setHasFixedSize(false);
         InactiveRecyclerView.setNestedScrollingEnabled(false);
-        ILayoutManager = new LinearLayoutManager(getActivity());
-        ILayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        InactiveRecyclerView.setLayoutManager(ILayoutManager);
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            ILayoutManager = new LinearLayoutManager(getActivity());
+            ILayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            InactiveRecyclerView.setLayoutManager(ILayoutManager);
+        }
+        else {
+            ILayoutManager = new GridLayoutManager(getActivity(), 2);
+            ILayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+            InactiveRecyclerView.setLayoutManager(ILayoutManager);
+        }
         InactiveRecyclerView.setAdapter(iAdapter);
+
+        onItemsLoadComplete();
     }
 
     void onItemsLoadComplete() {
@@ -129,32 +156,7 @@ public class ClientHomePage extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
     }
 
-    @Override
-    public void onPause()
-    {
-        super.onPause();
 
-        // save RecyclerView state
-        mBundleRecyclerViewState = new Bundle();
-        Parcelable ActiveListState = ActiveRecyclerView.getLayoutManager().onSaveInstanceState();
-        Parcelable InactiveListState = InactiveRecyclerView.getLayoutManager().onSaveInstanceState();
-        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, ActiveListState);
-        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE2, InactiveListState);
-    }
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-
-        // restore RecyclerView state
-        if (mBundleRecyclerViewState != null) {
-            Parcelable ActiveListState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
-            Parcelable InactiveListState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE2);
-            ActiveRecyclerView.getLayoutManager().onRestoreInstanceState(ActiveListState);
-            InactiveRecyclerView.getLayoutManager().onRestoreInstanceState(InactiveListState);
-        }
-    }
 
     private void intialiseActiveList() {
 
@@ -360,7 +362,7 @@ public class ClientHomePage extends Fragment implements View.OnClickListener {
             holder.editButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), EditTaskDetail.class);
-                    intent.putExtra("object", activeList.get(position));
+                    intent.putExtra("object", (Parcelable) activeList.get(position));
                     startActivity(intent);
                 }
             });
@@ -477,6 +479,33 @@ public class ClientHomePage extends Fragment implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
+
+        }
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+
+        // save RecyclerView state
+        mBundle = new Bundle();
+        mBundle.putParcelableArrayList("act", activeList);
+        mBundle.putParcelableArrayList("inact", inactiveList);
+        super.onSaveInstanceState(mBundle);
+
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        // restore RecyclerView state
+        if (mBundle != null) {
+            activeList = mBundle.getParcelableArrayList("act");
+            inactiveList = mBundle.getParcelableArrayList("inact");
+            refreshingItems();
 
         }
     }
